@@ -1,13 +1,9 @@
 <template>
-  <div id = "app">
-      <RouterView></RouterView>
+  <div id="app">
+    <RouterView></RouterView>
   </div>
 </template>
 
-<script setup lang="ts">
-  
-</script>
+<script setup lang="ts"></script>
 
-<style scoped lang="scss">
-  
-</style>
+<style scoped lang="scss"></style>
