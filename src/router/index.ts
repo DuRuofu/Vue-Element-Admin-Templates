@@ -6,13 +6,26 @@ const router = createRouter({
     // 重定向
     {
       path: '/',
-      redirect: '/login'
+      redirect: '/menu'
     },
     // 登陆页
     {
       path: '/login',
       name: 'login',
       component: () => import('@/views/login/index.vue')
+    },
+    {
+      path: '/menu',
+      name: 'menu',
+      component: () => import('@/views/menu/index.vue'),
+      children: [
+        // 首页
+        {
+          path: '/home',
+          name: 'home',
+          component: () => import('@/views/home/index.vue')
+        }
+      ]
     }
   ]
 })
