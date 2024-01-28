@@ -2,7 +2,7 @@ import axios from 'axios'
 
 const instance = axios.create({
   // 后端接口url
-  baseURL: 'http://127.0.0.1:8000',
+  baseURL: 'http://localhost:3000',
   // 超时时间
   timeout: 6000,
   // 请求头

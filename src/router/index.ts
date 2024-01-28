@@ -6,7 +6,7 @@ const router = createRouter({
     // 重定向
     {
       path: '/',
-      redirect: '/menu'
+      redirect: '/login'
     },
     // 登陆页
     {

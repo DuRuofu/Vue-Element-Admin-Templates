@@ -2,13 +2,7 @@
   <div class="menu">
     <el-container>
       <el-aside :width="isCollapse ? '64px' : '210px'" class="aside">
-        <el-menu
-          default-active="home"
-          class="el-menu"
-          :collapse-transition="false"
-          :collapse="isCollapse"
-          router
-        >
+        <el-menu class="el-menu" :collapse-transition="false" :collapse="isCollapse" router>
           <div class="menu-head">
             <div class="logo">
               <img src="../../assets/img/favicon.ico" alt="" />
@@ -21,7 +15,7 @@
               <el-icon><icon-menu /></el-icon>
               <span>Dashboard</span>
             </template>
-            <el-menu-item index="1-1">数据概览</el-menu-item>
+            <el-menu-item index="home">数据概览</el-menu-item>
             <el-menu-item index="1-2">工作台</el-menu-item>
           </el-sub-menu>
           <el-sub-menu index="1">
@@ -69,7 +63,7 @@
                 <el-dropdown-menu>
                   <el-dropdown-item>文档 </el-dropdown-item>
                   <el-dropdown-item>代码仓库</el-dropdown-item>
-                  <el-dropdown-item>退出系统</el-dropdown-item>
+                  <el-dropdown-item @click="goLogin">退出系统</el-dropdown-item>
                 </el-dropdown-menu>
               </template>
             </el-dropdown>
@@ -89,7 +83,7 @@
 
 <script setup lang="ts">
 import { reactive, ref, toRefs } from 'vue'
-
+import { useRouter } from 'vue-router'
 // 导入element-plus 图标
 import {
   Menu as IconMenu,
@@ -102,6 +96,7 @@ import {
   ArrowDown
 } from '@element-plus/icons-vue'
 
+const router = useRouter()
 // 菜单是否折叠,
 const isCollapse = ref(false)
 
@@ -114,6 +109,10 @@ const state = reactive({
 })
 
 const { circleUrl } = toRefs(state)
+
+const goLogin = () => {
+  router.push('/login')
+}
 </script>
 
 <style scoped lang="scss">

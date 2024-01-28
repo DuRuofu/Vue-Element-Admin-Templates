@@ -32,7 +32,9 @@
                     <span class="forget-password-button" @click="forgetPassword">忘记密码?</span>
                   </div>
                   <div>
-                    <el-button class="login-button" type="primary" @click="login">登陆</el-button>
+                    <el-button class="login-button" type="primary" @click="loginButton"
+                      >登陆</el-button
+                    >
                   </div>
                   <div class="go-register">
                     还没有账户?
@@ -67,7 +69,7 @@
                 </el-form-item>
                 <div class="register-bottom">
                   <div>
-                    <el-button class="register-button" type="primary" @click="register"
+                    <el-button class="register-button" type="primary" @click="registerButton"
                       >注册</el-button
                     >
                   </div>
@@ -85,9 +87,13 @@
 
 <script setup lang="ts">
 import { ref, reactive } from 'vue'
+import { useRouter } from 'vue-router'
+import { ElMessage } from 'element-plus'
 import foget from './components/forgetPassword.vue'
+import { login, register } from '../../api/login'
 const activeName = ref('first')
 
+const router = useRouter()
 // 表单对齐方式
 const labelPosition = ref('left')
 
@@ -96,6 +102,7 @@ interface LoginData {
   Account: string
   Password: string
 }
+
 interface RegisterData {
   Account: string
   Password_1: string
@@ -122,10 +129,33 @@ const registerData: RegisterData = reactive({
 })
 
 // 定义登陆方法
-const login = () => {}
+const loginButton = async () => {
+  const res = await login(loginData)
+
+  if (res.data.code == 200) {
+    ElMessage({
+      message: '登陆成功!',
+      type: 'success'
+    })
+    // 获取token
+    const token = res.data.data.token
+
+    //保存token
+    localStorage.setItem('token', token)
+
+    // 路由跳转
+    router.push('/home')
+  } else {
+    ElMessage.error('登陆失败请重试!')
+  }
+}
 
 // 定义注册方法
-const register = () => {}
+const registerButton = async () => {
+  const res = await register(registerData)
+
+  console.log(res)
+}
 
 // 定义忘记密码组件的引用
 const fogetP = ref()
