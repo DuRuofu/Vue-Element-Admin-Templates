@@ -54,12 +54,10 @@
     ],
     "*.vue": [
       "prettier --write",
-      "eslint --fix",
-      "stylelint --fix"
+      "eslint --fix"
     ],
     "*.{html,vue,vss,sass,less}": [
-      "prettier --write",
-      "stylelint --fix"
+      "prettier --write"
     ],
     "package.json": [
       "prettier --write"

@@ -5,7 +5,7 @@
         <div class="logo">
           <img src="../../assets/img/login-box.svg" alt="" />
         </div>
-        <div class="title">Vue-Element-Admin-Template</div>
+        <div class="title">Vue-Element-Admin</div>
         <div class="title">开箱即用的后端管理模板</div>
       </el-aside>
       <el-main class="main">
@@ -15,15 +15,21 @@
           <el-tabs v-model="activeName" class="demo-tabs" :stretch="true">
             <el-tab-pane label="登陆" name="first">
               <el-form class="login-form">
-                <el-form-item label="账户:">
+                <el-form-item label="账户">
                   <el-input v-model="loginData.Account" placeholder="请输入账户" />
                 </el-form-item>
                 <el-form-item label="密码">
-                  <el-input v-model="loginData.Password" placeholder="请输入密码" />
+                  <el-input
+                    v-model="loginData.Password"
+                    type="password"
+                    show-password
+                    placeholder="请输入密码"
+                  />
                 </el-form-item>
+
                 <div class="login-bottom">
                   <div>
-                    <span class="forget-passord-button">忘记密码?</span>
+                    <span class="forget-password-button" @click="forgetPassword">忘记密码?</span>
                   </div>
                   <div>
                     <el-button class="login-button" type="primary" @click="login">登陆</el-button>
@@ -35,24 +41,68 @@
                 </div>
               </el-form>
             </el-tab-pane>
-            <el-tab-pane label="注册" name="second">注册</el-tab-pane>
+            <el-tab-pane label="注册" name="second">
+              <el-form class="register-form" :label-position="labelPosition" label-width="70px">
+                <el-form-item label="账户">
+                  <el-input v-model="registerData.Account" placeholder="请输入账户" />
+                </el-form-item>
+                <el-form-item label="密码">
+                  <el-input
+                    v-model="registerData.Password_1"
+                    type="password"
+                    show-password
+                    placeholder="请输入密码"
+                  />
+                </el-form-item>
+                <el-form-item label="确认密码">
+                  <el-input
+                    v-model="registerData.Password_2"
+                    type="password"
+                    show-password
+                    placeholder="请输入密码"
+                  />
+                </el-form-item>
+                <el-form-item label="邮箱">
+                  <el-input v-model="registerData.Email_Phone" placeholder="请输入邮箱或手机号" />
+                </el-form-item>
+                <div class="register-bottom">
+                  <div>
+                    <el-button class="register-button" type="primary" @click="register"
+                      >注册</el-button
+                    >
+                  </div>
+                </div>
+              </el-form>
+            </el-tab-pane>
           </el-tabs>
         </el-card>
       </el-main>
     </el-container>
   </div>
+  <!-- 忘记密码组件 -->
+  <foget ref="fogetP"></foget>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, reactive } from 'vue'
+import foget from './components/forgetPassword.vue'
 const activeName = ref('first')
 
-import { reactive } from 'vue'
+// 表单对齐方式
+const labelPosition = ref('left')
 
 // 定义数据接口
 interface LoginData {
   Account: string
   Password: string
+}
+interface RegisterData {
+  Account: string
+  Password_1: string
+  Password_2: string
+  Email_Phone: string
+  Code: string
+  Check: boolean
 }
 
 // 定义登陆表单数据
@@ -61,8 +111,30 @@ const loginData: LoginData = reactive({
   Password: ''
 })
 
+// 定义注册表单数据
+const registerData: RegisterData = reactive({
+  Account: '',
+  Password_1: '',
+  Password_2: '',
+  Email_Phone: '',
+  Code: '',
+  Check: false
+})
+
 // 定义登陆方法
 const login = () => {}
+
+// 定义注册方法
+const register = () => {}
+
+// 定义忘记密码组件的引用
+const fogetP = ref()
+// 忘记密码方法
+const forgetPassword = () => {
+  console.log('忘记密码')
+  // 打开忘记密码组件
+  fogetP.value.open()
+}
 </script>
 
 <style scoped lang="scss">
@@ -149,13 +221,14 @@ const login = () => {}
         // 底部外壳
         .login-bottom {
           width: 100%;
-          .forget-passord-button {
+          .forget-password-button {
             float: right;
             margin-right: 10px;
             margin-top: -5px;
             margin-bottom: 10px;
             font-size: 13px;
             color: #0960bd;
+            cursor: pointer; /*鼠标悬停变小手*/
           }
           .login-button {
             height: 36px;
@@ -172,7 +245,33 @@ const login = () => {}
             .go-register-button {
               margin-left: 5px;
               color: #0960bd;
+              cursor: pointer; /*鼠标悬停变小手*/
             }
+            .register-button {
+              height: 36px;
+              width: 100%;
+              margin-bottom: 10px;
+            }
+          }
+        }
+      }
+
+      // 注册表单
+      .register-form {
+        width: 80%;
+        margin: 0 auto;
+        .el-form-item {
+          margin: 10px auto;
+        }
+
+        // 底部外壳
+        .register-bottom {
+          width: 100%;
+          // 注册按钮
+          .register-button {
+            height: 36px;
+            width: 100%;
+            margin-bottom: 10px;
           }
         }
       }
