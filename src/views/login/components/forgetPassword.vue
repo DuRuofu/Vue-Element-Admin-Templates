@@ -18,7 +18,6 @@
 		</template>
 	</el-dialog>
 	<!-- 重置密码 -->
-	u
 	<el-dialog v-model="state.updataPasswordDialog" title="重置密码" width="30%">
 		<el-form class="register-form" :rules="rules">
 			<el-form-item label="新密码" prop="Password">

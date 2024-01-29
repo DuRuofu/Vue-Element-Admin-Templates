@@ -9,6 +9,9 @@ import router from './router';
 import 'virtual:svg-icons-register';
 // 导入全局自定义插件
 import gloablComponent from './components/index';
+// 导入全局样式
+import '@/styles/index.scss';
+
 const app = createApp(App);
 
 // 导入Pinia
