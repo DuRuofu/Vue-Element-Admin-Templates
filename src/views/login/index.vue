@@ -87,7 +87,7 @@ import { ref, reactive } from 'vue';
 import { useRouter } from 'vue-router';
 import { ElMessage } from 'element-plus';
 import foget from './components/forgetPassword.vue';
-import { login, register } from '../../api/login';
+import { login, register } from '@/api/login/index';
 
 const activeName = ref('first');
 
@@ -128,23 +128,25 @@ const registerData: RegisterData = reactive({
 
 // 定义登陆方法
 const loginButton = async () => {
-	const res = await login(loginData);
+	try {
+		const res = await login(loginData);
+		//console.log('res', res);
+		if (res.code === 200) {
+			ElMessage({
+				message: '登陆成功!',
+				type: 'success'
+			});
+			// 获取token
+			const token = res.data.token;
 
-	if (res.data.code == 200) {
-		ElMessage({
-			message: '登陆成功!',
-			type: 'success'
-		});
-		// 获取token
-		const token = res.data.data.token;
+			//保存token
+			localStorage.setItem('token', token);
 
-		//保存token
-		localStorage.setItem('token', token);
-
-		// 路由跳转
-		router.push('/home');
-	} else {
-		ElMessage.error('登陆失败请重试!');
+			// 路由跳转
+			router.push('/home');
+		}
+	} catch (error) {
+		ElMessage.error('登录时出现错误，请重试！');
 	}
 };
 
