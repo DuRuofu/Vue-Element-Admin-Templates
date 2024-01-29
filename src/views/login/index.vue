@@ -3,7 +3,7 @@
 		<el-container>
 			<el-aside class="aside">
 				<div class="logo">
-					<img src="../../assets/img/login-box.svg" alt="" />
+					<svg-icon name="login-img" width="340px" height="340px"></svg-icon>
 				</div>
 				<div class="title">Vue-Element-Admin</div>
 				<div class="title">开箱即用的后端管理模板</div>
@@ -88,6 +88,7 @@ import { useRouter } from 'vue-router';
 import { ElMessage } from 'element-plus';
 import foget from './components/forgetPassword.vue';
 import { login, register } from '../../api/login';
+
 const activeName = ref('first');
 
 const router = useRouter();
@@ -189,9 +190,15 @@ const forgetPassword = () => {
 			display: flex;
 			flex-direction: column;
 			justify-content: center;
-			width: 65%;
 			height: 65%;
 			margin-top: -160px;
+
+			.svg-icon {
+				display: flex;
+				flex-direction: column;
+				justify-content: center;
+				margin-left: -100px;
+			}
 		}
 
 		.title {

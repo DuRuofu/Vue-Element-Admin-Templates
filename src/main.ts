@@ -5,7 +5,10 @@ import 'element-plus/dist/index.css';
 import zhCn from 'element-plus/dist/locale/zh-cn.mjs';
 import App from './App.vue';
 import router from './router';
-
+// 导入svg图标插件
+import 'virtual:svg-icons-register';
+// 导入全局自定义插件
+import gloablComponent from './components/index';
 const app = createApp(App);
 
 // 导入Pinia
@@ -18,5 +21,8 @@ app.use(router);
 app.use(ElementPlus, {
 	locale: zhCn
 });
+
+// 挂载自定义全局组件
+app.use(gloablComponent);
 
 app.mount('#app');
