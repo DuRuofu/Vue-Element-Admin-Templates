@@ -1,21 +1,24 @@
 import { createApp } from 'vue';
-import { createPinia } from 'pinia';
 import ElementPlus from 'element-plus';
 import 'element-plus/dist/index.css';
 import zhCn from 'element-plus/dist/locale/zh-cn.mjs';
 import App from './App.vue';
+// 引入路由
 import router from './router';
+// 引入Pinia
+import pinia from './stores';
 // 导入svg图标插件
 import 'virtual:svg-icons-register';
 // 导入全局自定义插件
 import gloablComponent from './components/index';
 // 导入全局样式
 import '@/styles/index.scss';
-
+// 在某些条件下隐藏元素
+import 'element-plus/theme-chalk/display.css';
 const app = createApp(App);
 
 // 导入Pinia
-app.use(createPinia());
+app.use(pinia);
 
 // 导入路由
 app.use(router);

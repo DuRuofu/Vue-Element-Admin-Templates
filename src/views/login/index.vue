@@ -1,7 +1,7 @@
 <template>
 	<div class="layout">
 		<el-container>
-			<el-aside class="aside">
+			<el-aside :xs="0" class="aside hidden-xs-only">
 				<div class="logo">
 					<svg-icon name="login-img" width="340px" height="340px"></svg-icon>
 				</div>
@@ -85,9 +85,15 @@
 <script setup lang="ts">
 import { ref, reactive } from 'vue';
 import { useRouter } from 'vue-router';
-import { ElMessage } from 'element-plus';
+
+// 引入用户仓库
+import useAccountStore from '@/stores/modules/account';
+
 import foget from './components/forgetPassword.vue';
-import { login, register } from '@/api/login/index';
+import { ElMessage } from 'element-plus';
+
+// 创建仓库
+const accountStore = useAccountStore();
 
 const activeName = ref('first');
 
@@ -128,23 +134,15 @@ const registerData: RegisterData = reactive({
 
 // 定义登陆方法
 const loginButton = async () => {
+	//调用登陆方法
 	try {
-		const res = await login(loginData);
-		//console.log('res', res);
-		if (res.code === 200) {
-			ElMessage({
-				message: '登陆成功!',
-				type: 'success'
-			});
-			// 获取token
-			const token = res.data.token;
-
-			//保存token
-			localStorage.setItem('token', token);
-
-			// 路由跳转
-			router.push('/home');
-		}
+		await accountStore.accountLogin(loginData);
+		// 路由跳转
+		router.push('/home');
+		ElMessage({
+			message: '登陆成功!',
+			type: 'success'
+		});
 	} catch (error) {
 		ElMessage.error('登录时出现错误，请重试！');
 	}
@@ -152,9 +150,8 @@ const loginButton = async () => {
 
 // 定义注册方法
 const registerButton = async () => {
-	const res = await register(registerData);
-
-	console.log(res);
+	//const res = await register(registerData);
+	//console.log(res);
 };
 
 // 定义忘记密码组件的引用
