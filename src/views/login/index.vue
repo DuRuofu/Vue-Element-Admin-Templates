@@ -1,418 +1,317 @@
 <template>
-  <div class="layout">
-    <el-container>
-      <el-aside class="aside">
-        <div class="logo">
-          <img src="../../assets/img/login-box.svg" alt="" />
-        </div>
-        <div class="title">Vue-Element-Admin</div>
-        <div class="title">开箱即用的后端管理模板</div>
-      </el-aside>
-      <el-main class="main">
-        <el-card class="box-card">
-          <div class="main-title-1">Vue-Element-Admin</div>
-          <div class="main-title-2">一个简单易用的后台管理系统</div>
-          <el-tabs v-model="activeName" class="demo-tabs" :stretch="true">
-            <el-tab-pane label="登陆" name="first">
-              <el-form class="login-form">
-                <el-form-item label="账户">
-                  <el-input v-model="loginData.Account" placeholder="请输入账户" />
-                </el-form-item>
-                <el-form-item label="密码">
-                  <el-input
-                    v-model="loginData.Password"
-                    type="password"
-                    show-password
-                    placeholder="请输入密码"
-                  />
-                </el-form-item>
+	<div class="layout">
+		<el-container>
+			<el-aside class="aside">
+				<div class="logo">
+					<img src="../../assets/img/login-box.svg" alt="" />
+				</div>
+				<div class="title">Vue-Element-Admin</div>
+				<div class="title">开箱即用的后端管理模板</div>
+			</el-aside>
+			<el-main class="main">
+				<el-card class="box-card">
+					<div class="main-title-1">Vue-Element-Admin</div>
+					<div class="main-title-2">一个简单易用的后台管理系统</div>
+					<el-tabs v-model="activeName" class="demo-tabs" :stretch="true">
+						<el-tab-pane label="登陆" name="first">
+							<el-form class="login-form">
+								<el-form-item label="账户">
+									<el-input v-model="loginData.Account" placeholder="请输入账户" />
+								</el-form-item>
+								<el-form-item label="密码">
+									<el-input
+										v-model="loginData.Password"
+										type="password"
+										show-password
+										placeholder="请输入密码" />
+								</el-form-item>
 
-                <div class="login-bottom">
-                  <div>
-                    <span class="forget-password-button" @click="forgetPassword">忘记密码?</span>
-                  </div>
-                  <div>
-                    <el-button class="login-button" type="primary" @click="loginButton"
-                      >登陆</el-button
-                    >
-                  </div>
-                  <div class="go-register">
-                    还没有账户?
-                    <span class="go-register-button">立即注册</span>
-                  </div>
-                </div>
-              </el-form>
-            </el-tab-pane>
-            <el-tab-pane label="注册" name="second">
-              <el-form class="register-form" :label-position="labelPosition" label-width="70px">
-                <el-form-item label="账户">
-                  <el-input v-model="registerData.Account" placeholder="请输入账户" />
-                </el-form-item>
-                <el-form-item label="密码">
-                  <el-input
-                    v-model="registerData.Password_1"
-                    type="password"
-                    show-password
-                    placeholder="请输入密码"
-                  />
-                </el-form-item>
-                <el-form-item label="确认密码">
-                  <el-input
-                    v-model="registerData.Password_2"
-                    type="password"
-                    show-password
-                    placeholder="请输入密码"
-                  />
-                </el-form-item>
-                <el-form-item label="邮箱">
-                  <el-input v-model="registerData.Email_Phone" placeholder="请输入邮箱或手机号" />
-                </el-form-item>
-                <div class="register-bottom">
-                  <div>
-                    <el-button class="register-button" type="primary" @click="registerButton"
-                      >注册</el-button
-                    >
-                  </div>
-                </div>
-              </el-form>
-            </el-tab-pane>
-          </el-tabs>
-        </el-card>
-      </el-main>
-    </el-container>
-  </div>
-  <!-- 忘记密码组件 -->
-  <foget ref="fogetP"></foget>
+								<div class="login-bottom">
+									<div>
+										<span class="forget-password-button" @click="forgetPassword">忘记密码?</span>
+									</div>
+									<div>
+										<el-button class="login-button" type="primary" @click="loginButton">
+											登陆
+										</el-button>
+									</div>
+									<div class="go-register">
+										还没有账户?
+										<span class="go-register-button">立即注册</span>
+									</div>
+								</div>
+							</el-form>
+						</el-tab-pane>
+						<el-tab-pane label="注册" name="second">
+							<el-form class="register-form" :label-position="labelPosition" label-width="70px">
+								<el-form-item label="账户">
+									<el-input v-model="registerData.Account" placeholder="请输入账户" />
+								</el-form-item>
+								<el-form-item label="密码">
+									<el-input
+										v-model="registerData.Password_1"
+										type="password"
+										show-password
+										placeholder="请输入密码" />
+								</el-form-item>
+								<el-form-item label="确认密码">
+									<el-input
+										v-model="registerData.Password_2"
+										type="password"
+										show-password
+										placeholder="请输入密码" />
+								</el-form-item>
+								<el-form-item label="邮箱">
+									<el-input v-model="registerData.Email_Phone" placeholder="请输入邮箱或手机号" />
+								</el-form-item>
+								<div class="register-bottom">
+									<div>
+										<el-button class="register-button" type="primary" @click="registerButton">
+											注册
+										</el-button>
+									</div>
+								</div>
+							</el-form>
+						</el-tab-pane>
+					</el-tabs>
+				</el-card>
+			</el-main>
+		</el-container>
+	</div>
+	<!-- 忘记密码组件 -->
+	<foget ref="fogetP"></foget>
 </template>
 
 <script setup lang="ts">
-import { ref, reactive } from 'vue'
-import { useRouter } from 'vue-router'
-import { ElMessage } from 'element-plus'
-import foget from './components/forgetPassword.vue'
-import { login, register } from '../../api/login'
-const activeName = ref('first')
+import { ref, reactive } from 'vue';
+import { useRouter } from 'vue-router';
+import { ElMessage } from 'element-plus';
+import foget from './components/forgetPassword.vue';
+import { login, register } from '../../api/login';
+const activeName = ref('first');
 
-const router = useRouter()
+const router = useRouter();
 // 表单对齐方式
-const labelPosition = ref('left')
+const labelPosition = ref('left');
 
 // 定义数据接口
 interface LoginData {
-  Account: string
-  Password: string
+	Account: string;
+	Password: string;
 }
 
 interface RegisterData {
-  Account: string
-  Password_1: string
-  Password_2: string
-  Email_Phone: string
-  Code: string
-  Check: boolean
+	Account: string;
+	Password_1: string;
+	Password_2: string;
+	Email_Phone: string;
+	Code: string;
+	Check: boolean;
 }
 
 // 定义登陆表单数据
 const loginData: LoginData = reactive({
-  Account: '',
-  Password: ''
-})
+	Account: '',
+	Password: ''
+});
 
 // 定义注册表单数据
 const registerData: RegisterData = reactive({
-  Account: '',
-  Password_1: '',
-  Password_2: '',
-  Email_Phone: '',
-  Code: '',
-  Check: false
-})
+	Account: '',
+	Password_1: '',
+	Password_2: '',
+	Email_Phone: '',
+	Code: '',
+	Check: false
+});
 
 // 定义登陆方法
 const loginButton = async () => {
-  const res = await login(loginData)
+	const res = await login(loginData);
 
-  if (res.data.code == 200) {
-    ElMessage({
-      message: '登陆成功!',
-      type: 'success'
-    })
-    // 获取token
-    const token = res.data.data.token
+	if (res.data.code == 200) {
+		ElMessage({
+			message: '登陆成功!',
+			type: 'success'
+		});
+		// 获取token
+		const token = res.data.data.token;
 
-    //保存token
-    localStorage.setItem('token', token)
+		//保存token
+		localStorage.setItem('token', token);
 
-    // 路由跳转
-    router.push('/home')
-  } else {
-    ElMessage.error('登陆失败请重试!')
-  }
-}
+		// 路由跳转
+		router.push('/home');
+	} else {
+		ElMessage.error('登陆失败请重试!');
+	}
+};
 
 // 定义注册方法
 const registerButton = async () => {
-  const res = await register(registerData)
+	const res = await register(registerData);
 
-  console.log(res)
-}
+	console.log(res);
+};
 
 // 定义忘记密码组件的引用
-const fogetP = ref()
+const fogetP = ref();
 // 忘记密码方法
 const forgetPassword = () => {
-  console.log('忘记密码')
-  // 打开忘记密码组件
-  fogetP.value.open()
-}
+	console.log('忘记密码');
+	// 打开忘记密码组件
+	fogetP.value.open();
+};
 </script>
 
 <style scoped lang="scss">
 .layout {
-  width: 100%;
-  height: 100vh;
+	width: 100%;
+	height: 100vh;
 
-  // 侧面
-  .aside {
-    background: linear-gradient(135deg, #6078ea, #17ead9);
-    width: 40%;
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    // 阴影
-    position: relative;
-    box-shadow: 0 0 5px 1px #999;
-    // 圆角
-    border-radius: 1%;
+	// 侧面
+	.aside {
+		// 阴影
+		position: relative;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		width: 40%;
+		height: 100vh;
+		background: linear-gradient(135deg, #6078ea, #17ead9);
 
-    .logo {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      width: 65%;
-      height: 65%;
-      margin-top: -160px;
-    }
-    .title {
-      margin-top: 15px;
-      color: #ffffff;
-      font-size: 30px;
-    }
-  }
+		// 圆角
+		border-radius: 1%;
+		box-shadow: 0 0 5px 1px #999;
 
-  // 主内容
-  .main {
-    background-color: #ffffff;
-    width: 60%;
-    height: 100vh;
-    // 强制去除原有padding，使el-aside和el-main贴合
-    padding: 0 !important;
+		.logo {
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			width: 65%;
+			height: 65%;
+			margin-top: -160px;
+		}
 
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    .main-title-1 {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      margin-top: 10px;
-      margin-bottom: 10px;
+		.title {
+			margin-top: 15px;
+			font-size: 30px;
+			color: #fff;
+		}
+	}
 
-      font-size: 25px;
-      font-weight: bold;
-    }
-    .main-title-2 {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      margin-top: 2px;
-      margin-bottom: 2px;
+	// 主内容
+	.main {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		width: 60%;
+		height: 100vh;
 
-      font-size: 13px;
-      color: #7a7373;
-    }
-    .box-card {
-      height: 70%;
-      width: 430px;
+		// 强制去除原有padding，使el-aside和el-main贴合
+		padding: 0 !important;
+		background-color: #fff;
 
-      // 登陆表单
-      .login-form {
-        width: 80%;
-        margin: 0 auto;
-        .el-form-item {
-          margin: 20px auto;
-        }
+		.main-title-1 {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+			margin-top: 10px;
+			margin-bottom: 10px;
+			font-size: 25px;
+			font-weight: bold;
+		}
 
-        // 底部外壳
-        .login-bottom {
-          width: 100%;
-          .forget-password-button {
-            float: right;
-            margin-right: 10px;
-            margin-top: -5px;
-            margin-bottom: 10px;
-            font-size: 13px;
-            color: #0960bd;
-            cursor: pointer; /*鼠标悬停变小手*/
-          }
-          .login-button {
-            height: 36px;
-            width: 100%;
-            margin-bottom: 10px;
-          }
+		.main-title-2 {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+			margin-top: 2px;
+			margin-bottom: 2px;
+			font-size: 13px;
+			color: #7a7373;
+		}
 
-          .go-register {
-            margin: auto 0;
-            font-size: 13px;
-            display: flex;
-            justify-content: center; /* 水平居中 */
+		.box-card {
+			width: 430px;
+			height: 70%;
 
-            .go-register-button {
-              margin-left: 5px;
-              color: #0960bd;
-              cursor: pointer; /*鼠标悬停变小手*/
-            }
-            .register-button {
-              height: 36px;
-              width: 100%;
-              margin-bottom: 10px;
-            }
-          }
-        }
-      }
+			// 登陆表单
+			.login-form {
+				width: 80%;
+				margin: 0 auto;
 
-      // 注册表单
-      .register-form {
-        width: 80%;
-        margin: 0 auto;
-        .el-form-item {
-          margin: 10px auto;
-        }
+				.el-form-item {
+					margin: 20px auto;
+				}
 
-        // 底部外壳
-        .register-bottom {
-          width: 100%;
-          // 注册按钮
-          .register-button {
-            height: 36px;
-            width: 100%;
-            margin-bottom: 10px;
-          }
-        }
-      }
-    }
-  }
+				// 底部外壳
+				.login-bottom {
+					width: 100%;
+
+					.forget-password-button {
+						float: right;
+						margin-top: -5px;
+						margin-right: 10px;
+						margin-bottom: 10px;
+						font-size: 13px;
+						color: #0960bd;
+						cursor: pointer; /* 鼠标悬停变小手 */
+					}
+
+					.login-button {
+						width: 100%;
+						height: 36px;
+						margin-bottom: 10px;
+					}
+
+					.go-register {
+						display: flex;
+						justify-content: center; /* 水平居中 */
+						margin: auto 0;
+						font-size: 13px;
+
+						.go-register-button {
+							margin-left: 5px;
+							color: #0960bd;
+							cursor: pointer; /* 鼠标悬停变小手 */
+						}
+
+						.register-button {
+							width: 100%;
+							height: 36px;
+							margin-bottom: 10px;
+						}
+					}
+				}
+			}
+
+			// 注册表单
+			.register-form {
+				width: 80%;
+				margin: 0 auto;
+
+				.el-form-item {
+					margin: 10px auto;
+				}
+
+				// 底部外壳
+				.register-bottom {
+					width: 100%;
+
+					// 注册按钮
+					.register-button {
+						width: 100%;
+						height: 36px;
+						margin-bottom: 10px;
+					}
+				}
+			}
+		}
+	}
 }
 </style>
-
-<!-- <template>
-  <div class="common-layout">
-    <el-container>
-      <el-header class="header-wrapped">
-        <div class="header-content">
-          <h3>Vue-Element-Admin-Template</h3>
-        </div>
-      </el-header>
-      <el-main>
-        <div class="main-wrapped">
-          <div class="main-content">
-            <el-card class="box-card">
-              <template #header>
-                <div class="card-header">
-                  <span class="title">登陆</span>
-                </div>
-              </template>
-              <el-form :model="form">
-                <el-form-item label="账号">
-                  <el-input v-model="form.account" />
-                </el-form-item>
-                <el-form-item label="密码">
-                  <el-input v-model="form.password" />
-                </el-form-item>
-              </el-form>
-              <template #footer>
-                <el-button class="button" text> 登陆 </el-button>
-              </template>
-            </el-card>
-          </div>
-        </div>
-      </el-main>
-      <el-footer class="footer-wrapped">
-        <div class="footer-content">
-          <h3>Vue-Element-Admin-Template@DuRuofu</h3>
-        </div>
-      </el-footer>
-    </el-container>
-  </div>
-</template>
-
-<script setup lang="ts">
-import { reactive } from 'vue'
-const form = reactive({
-  account: '',
-  password: ''
-})
-</script>
-
-<style scoped lang="scss">
-// 头部
-.header-wrapped {
-  width: 100%;
-  background-color: #76abdf;
-  color: #fff;
-  margin: 0 auto;
-  .header-content {
-    margin: 0 100px;
-  }
-}
-
-// 中部
-.el-main {
-  background-image: url(../../assets/login.jpg);
-  width: 100%;
-  height: 650px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  .main-wrapped {
-    .main-content {
-      .card-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-      }
-
-      .text {
-        font-size: 14px;
-      }
-
-      .item {
-        margin-bottom: 30px;
-      }
-
-      .box-card {
-        width: 350px;
-      }
-    }
-  }
-}
-
-// 底部
-.footer-wrapped {
-  background-color: #6ca4dc;
-  width: 100%;
-  height: 100px;
-  margin: 0 auto;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  .footer-content {
-    margin: 0 auto;
-  }
-}
-</style> -->
