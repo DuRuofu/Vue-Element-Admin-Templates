@@ -6,14 +6,18 @@
 			<el-icon>
 				<component :is="item.meta.icon" />
 			</el-icon>
-			<span>{{ item.meta.title }}</span>
+			<template #title>
+				<span>{{ item.meta.title }}</span>
+			</template>
 		</el-menu-item>
 		<!-- 只有一个子页面 -->
 		<el-menu-item
 			v-if="item.children && item.children.length == 1 && !item.children[0].meta.hidden"
 			:index="item.children[0].path">
 			<el-icon><component :is="item.children[0].meta.icon" /></el-icon>
-			<span>{{ item.children[0].meta.title }}</span>
+			<template #title>
+				<span>{{ item.children[0].meta.title }}</span>
+			</template>
 		</el-menu-item>
 		<!-- 有多个子页面 -->
 		<el-sub-menu
