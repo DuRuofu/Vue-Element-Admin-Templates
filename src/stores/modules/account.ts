@@ -2,18 +2,21 @@
 import { defineStore } from 'pinia';
 // 引入数据类型
 import type { LoginData, LoginResponseData } from '@/api/account/type';
+import type { AccountState } from './types/type';
 // 引入请求方法
 import { login } from '@/api/account/index';
-
+// 引入工具方法
+import { SET_TOKEN, GET_TOKEN } from '@/utils/token';
 // 创建用户仓库
 const useAccountStore = defineStore('Account', {
-	// 数据
-	state: () => {
+	//数据----------------------------------------------------//
+	state: (): AccountState => {
 		return {
-			token: localStorage.getItem('token') //用户的token
+			token: GET_TOKEN() //用户的token
 		};
 	},
-	// 方法
+
+	//方法----------------------------------------------------//
 	actions: {
 		//用户登陆
 		async accountLogin(data: LoginData) {
@@ -22,7 +25,7 @@ const useAccountStore = defineStore('Account', {
 				if (res.code == 200) {
 					//保存token
 					this.token = res.data.token;
-					localStorage.setItem('token', res.data.token);
+					SET_TOKEN(res.data.token);
 					return 'ok';
 				} else {
 					return Promise.reject(new Error());
@@ -32,7 +35,8 @@ const useAccountStore = defineStore('Account', {
 			}
 		}
 	},
-	// 计算属性
+
+	//计算属性----------------------------------------------------//
 	getters: {}
 });
 

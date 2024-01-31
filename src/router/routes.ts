@@ -11,18 +11,18 @@ export const constantRoute = [
 		name: 'login',
 		component: () => import('@/views/login/index.vue')
 	},
-	// 主页
+	// 框架页
 	{
 		path: '/home',
 		name: 'home',
-		component: () => import('@/views/home/index.vue'),
+		component: () => import('@/layout/index.vue'),
 		children: [
 			// 首页
-			{
-				path: '/home1',
-				name: 'home1',
-				component: () => import('@/views/home/index.vue')
-			}
+			// {
+			// 	path: '/home1',
+			// 	name: 'home1',
+			// 	component: () => import('@/views/home/index.vue')
+			// }
 		]
 	},
 	// 404 页面

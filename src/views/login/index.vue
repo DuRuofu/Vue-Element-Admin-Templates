@@ -85,27 +85,24 @@
 <script setup lang="ts">
 import { ref, reactive } from 'vue';
 import { useRouter } from 'vue-router';
-
 // 引入用户仓库
 import useAccountStore from '@/stores/modules/account';
-
+// 引入忘记密码组件
 import foget from './components/forgetPassword.vue';
-import { ElMessage } from 'element-plus';
-
-// 创建仓库
+// 引入element-plus的消息提示
+import { ElMessage, ElNotification } from 'element-plus';
+// 引入数据类型
+import type { LoginData } from '@/api/account/type';
+//引入获取当前时间的函数
+import { getTime } from '@/utils/time';
+// 创建数据仓库
 const accountStore = useAccountStore();
 
 const activeName = ref('first');
-
 const router = useRouter();
+
 // 表单对齐方式
 const labelPosition = ref('left');
-
-// 定义数据接口
-interface LoginData {
-	Account: string;
-	Password: string;
-}
 
 interface RegisterData {
 	Account: string;
@@ -139,7 +136,8 @@ const loginButton = async () => {
 		await accountStore.accountLogin(loginData);
 		// 路由跳转
 		router.push('/home');
-		ElMessage({
+		ElNotification({
+			title: `HI,${getTime()}好!`,
 			message: '登陆成功!',
 			type: 'success'
 		});
