@@ -21,7 +21,7 @@
 				</el-header>
 				<el-main>
 					<!-- 动态部分 -->
-					<router-view></router-view>
+					<router-view v-if="flag"></router-view>
 					<!-- 动态部分 -->
 				</el-main>
 			</el-container>
@@ -30,7 +30,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, watch, nextTick } from 'vue';
 
 // 导入菜单组件
 import routemenu from './components/menu/index.vue';
@@ -40,6 +40,25 @@ import tabbar from './components/tabbar/index.vue';
 // 导入用户仓库
 import useAccountStore from '@/stores/modules/account';
 const accountStore = useAccountStore();
+// 获取layout组件的数据
+import useLayoutSettingStore from '@/stores/modules/layout';
+const layoutSettingStore = useLayoutSettingStore();
+
+// 控制主视图销毁
+let flag = ref(true);
+
+// 监听仓库内容发生变化
+watch(
+	() => layoutSettingStore.refsh,
+	() => {
+		// 重置flag
+		flag.value = false;
+		// 重新创建
+		nextTick(() => {
+			flag.value = true;
+		});
+	}
+);
 
 // 定义路由导航组件的引用
 const menuP = ref();

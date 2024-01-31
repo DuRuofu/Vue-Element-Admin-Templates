@@ -47,6 +47,7 @@ export const constantRoute = [
 			hidden: false,
 			icon: 'Setting'
 		},
+		redirect: '/organization',
 		children: [
 			{
 				path: '/organization',
@@ -110,6 +111,7 @@ export const constantRoute = [
 			hidden: false,
 			icon: 'Link'
 		},
+		redirect: '/about',
 		children: [
 			// 关于系统
 			{

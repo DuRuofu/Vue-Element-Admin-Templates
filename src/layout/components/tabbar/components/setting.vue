@@ -1,5 +1,9 @@
 <template>
 	<div class="Set">
+		<!-- 刷新 -->
+		<el-button size="small" class="refresh" @click="updateRrfresh" circle>
+			<el-icon :size="16"><Refresh /></el-icon>
+		</el-button>
 		<!-- 全屏 -->
 		<el-button size="small" class="fullscreen" circle>
 			<el-icon :size="16"><FullScreen /></el-icon>
@@ -35,9 +39,13 @@
 
 <script setup lang="ts">
 // 导入element-plus 图标
-import { Setting, FullScreen, Message, ArrowDown } from '@element-plus/icons-vue';
+import { Setting, FullScreen, Message, ArrowDown, Refresh } from '@element-plus/icons-vue';
 import { reactive, toRefs } from 'vue';
 import { useRouter } from 'vue-router';
+// 获取layout组件的数据
+import useLayoutSettingStore from '@/stores/modules/layout';
+const layoutSettingStore = useLayoutSettingStore();
+
 // 用户头像
 const state = reactive({
 	circleUrl: 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png'
@@ -46,6 +54,12 @@ const { circleUrl } = toRefs(state);
 const router = useRouter();
 const goLogin = () => {
 	router.push('/login');
+};
+
+// 刷新按钮
+const updateRrfresh = () => {
+	layoutSettingStore.refsh = !layoutSettingStore.refsh;
+	console.log(layoutSettingStore.refsh);
 };
 </script>
 
