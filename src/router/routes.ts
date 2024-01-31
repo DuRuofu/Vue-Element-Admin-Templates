@@ -1,36 +1,16 @@
 // 对外暴露配置路由
 export const constantRoute = [
-	// 重定向
+	// dashboard页面
 	{
-		path: '/',
-		redirect: '/login',
-		meta: {
-			title: '重定向',
-			hidden: false,
-			icon: 'Close'
-		}
-	},
-	// 登陆页
-	{
-		path: '/login',
-		name: 'login',
-		component: () => import('@/views/login/index.vue'),
-		meta: {
-			title: '登陆',
-			hidden: false,
-			icon: 'House'
-		}
-	},
-	// 框架页
-	{
-		path: '/home',
-		name: 'home',
+		path: '/dashboard',
+		name: 'dashboard',
 		component: () => import('@/layout/index.vue'),
 		meta: {
-			title: 'layout',
+			title: 'Dashboard',
 			hidden: false,
 			icon: 'Menu'
 		},
+		redirect: '/dataview',
 		children: [
 			// 数据概览
 			{
@@ -56,6 +36,94 @@ export const constantRoute = [
 			}
 		]
 	},
+
+	// 管理页面
+	{
+		path: '/admin',
+		name: 'admin',
+		component: () => import('@/layout/index.vue'),
+		meta: {
+			title: '系统管理',
+			hidden: false,
+			icon: 'Setting'
+		},
+		children: [
+			{
+				path: '/organization',
+				name: 'organization',
+				component: () => import('@/views/admin/organization/index.vue'),
+				meta: {
+					title: '组织管理',
+					hidden: false,
+					icon: 'OfficeBuilding'
+				}
+			},
+			{
+				path: '/account',
+				name: 'account',
+				component: () => import('@/views/admin/account/index.vue'),
+				meta: {
+					title: '账户管理',
+					hidden: false,
+					icon: 'User'
+				}
+			},
+			{
+				path: '/role',
+				name: 'role',
+				component: () => import('@/views/admin/role/index.vue'),
+				meta: {
+					title: '角色管理',
+					hidden: false,
+					icon: 'UserFilled'
+				}
+			},
+			{
+				path: '/menu',
+				name: 'menu',
+				component: () => import('@/views/admin/menu/index.vue'),
+				meta: {
+					title: '菜单管理',
+					hidden: false,
+					icon: 'Grid'
+				}
+			},
+			{
+				path: '/function',
+				name: 'function',
+				component: () => import('@/views/admin/function/index.vue'),
+				meta: {
+					title: '功能管理',
+					hidden: false,
+					icon: 'TurnOff'
+				}
+			}
+		]
+	},
+	//关于页面
+	{
+		path: '/about',
+		name: 'about',
+		component: () => import('@/layout/index.vue'),
+		meta: {
+			title: 'about',
+			hidden: false,
+			icon: 'Link'
+		},
+		children: [
+			// 关于系统
+			{
+				path: '/about',
+				name: 'about',
+				component: () => import('@/views/about/index.vue'),
+				meta: {
+					title: '关于系统',
+					hidden: false,
+					icon: 'Link'
+				}
+			}
+		]
+	},
 	// 404 页面
 	{
 		path: '/404',
@@ -63,7 +131,7 @@ export const constantRoute = [
 		component: () => import('@/views/error/404.vue'),
 		meta: {
 			title: '404',
-			hidden: false,
+			hidden: true,
 			icon: 'CircleCloseFilled'
 		}
 	},
@@ -74,8 +142,29 @@ export const constantRoute = [
 		name: 'any',
 		meta: {
 			title: '其他',
-			hidden: false,
+			hidden: true,
 			icon: 'QuestionFilled'
+		}
+	},
+	// 重定向
+	{
+		path: '/',
+		redirect: '/login',
+		meta: {
+			title: '重定向',
+			hidden: true,
+			icon: 'Close'
+		}
+	},
+	// 登陆页
+	{
+		path: '/login',
+		name: 'login',
+		component: () => import('@/views/login/index.vue'),
+		meta: {
+			title: '登陆',
+			hidden: true,
+			icon: 'House'
 		}
 	}
 ];

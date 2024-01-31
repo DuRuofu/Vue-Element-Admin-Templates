@@ -135,7 +135,7 @@ const loginButton = async () => {
 	try {
 		await accountStore.accountLogin(loginData);
 		// 路由跳转
-		router.push('/home');
+		router.push('/dashboard');
 		ElNotification({
 			title: `HI,${getTime()}好!`,
 			message: '登陆成功!',
