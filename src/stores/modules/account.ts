@@ -47,6 +47,7 @@ const useAccountStore = defineStore('Account', {
 				const res = (await getAccountInfo()) as any;
 				if (res.code == 200) {
 					this.accountInfo = res.data;
+					return 'ok';
 				} else {
 					return Promise.reject(new Error());
 				}

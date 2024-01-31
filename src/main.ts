@@ -15,6 +15,8 @@ import gloablComponent from './components/index';
 import '@/styles/index.scss';
 // 在某些条件下隐藏元素
 import 'element-plus/theme-chalk/display.css';
+// 导入路由鉴权模块
+import './router/permission';
 const app = createApp(App);
 
 // 导入Pinia
