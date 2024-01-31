@@ -23,12 +23,12 @@ app.use(pinia);
 // 导入路由
 app.use(router);
 
+// 挂载自定义全局组件
+app.use(gloablComponent);
+
 // 导入ElementPlus
 app.use(ElementPlus, {
 	locale: zhCn
 });
-
-// 挂载自定义全局组件
-app.use(gloablComponent);
 
 app.mount('#app');

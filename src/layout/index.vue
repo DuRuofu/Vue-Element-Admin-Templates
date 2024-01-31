@@ -2,8 +2,17 @@
 	<div class="menu">
 		<el-container>
 			<el-aside class="aside" :width="isCollapse ? '64px' : '210px'">
-				<!-- 动态生成路由 -->
-				<Menu ref="menuP" :width="!isCollapse ? '64px' : '210px'"></Menu>
+				<el-menu class="el-menu" :collapse-transition="false" :collapse="isCollapse" router>
+					<!-- 头部logo -->
+					<div class="menu-head">
+						<div class="logo">
+							<img src="@/assets/img/favicon.ico" alt="" />
+						</div>
+						<div class="title" v-if="!isCollapse ? true : false">Vue-Admin</div>
+					</div>
+					<!-- 动态生成路由 -->
+					<routemenu :menuList="accountStore.menuRoutes" ref="menuP"></routemenu>
+				</el-menu>
 			</el-aside>
 			<el-container>
 				<el-header>
@@ -54,10 +63,19 @@
 import { reactive, toRefs, ref } from 'vue';
 import { useRouter } from 'vue-router';
 // 导入菜单组件
-import Menu from './components/menu.vue';
+import routemenu from './components/menu.vue';
 // 导入element-plus 图标
-import { DArrowLeft, DArrowRight, FullScreen, Message, ArrowDown } from '@element-plus/icons-vue';
-
+import {
+	DArrowLeft,
+	DArrowRight,
+	Setting,
+	FullScreen,
+	Message,
+	ArrowDown
+} from '@element-plus/icons-vue';
+// 导入用户仓库
+import useAccountStore from '@/stores/modules/account';
+const accountStore = useAccountStore();
 const router = useRouter();
 
 const state = reactive({
@@ -68,11 +86,10 @@ const { circleUrl } = toRefs(state);
 // 定义路由导航组件的引用
 const menuP = ref();
 
+// 控制菜单折叠
 const isCollapse = ref(false);
-
 // 菜单组件折叠方法
 const menuFold = () => {
-	menuP.value.menuFold();
 	isCollapse.value = !isCollapse.value;
 };
 
@@ -83,6 +100,34 @@ const goLogin = () => {
 
 <style scoped lang="scss">
 // 菜单样式
+.el-menu {
+	width: 100%;
+	height: 100vh;
+	color: #c3c5c8;
+	background: #001529;
+
+	// 菜单头部
+	.menu-head {
+		display: flex;
+		align-items: center;
+		height: 40px;
+		padding: 13px;
+
+		.logo {
+			align-items: center; /* 垂直居中 */
+		}
+
+		.title {
+			margin-left: 10px;
+			font-size: 18px;
+
+			// 字体加粗
+			font-weight: bolder;
+			color: #fff;
+			background: #001529;
+		}
+	}
+}
 
 // 头部样式
 .el-header {
@@ -133,25 +178,5 @@ const goLogin = () => {
 			margin-right: 10px;
 		}
 	}
-}
-
-// 样式穿透设置菜单字体颜色
-:deep(.el-sub-menu__title) {
-	color: #c3c5c8;
-}
-
-// 样式穿透设置动态样式
-:deep(.el-menu-item:hover) {
-	color: #fff !important;
-	background: #001529 !important;
-}
-
-:deep(.el-sub-menu__title:hover) {
-	color: #fff;
-	background: #001529;
-}
-
-:deep(.el-sub-menu:hover) {
-	background: #001529;
 }
 </style>

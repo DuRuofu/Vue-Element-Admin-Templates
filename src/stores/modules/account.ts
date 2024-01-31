@@ -38,6 +38,16 @@ const useAccountStore = defineStore('Account', {
 			} catch (error) {
 				return Promise.reject(new Error());
 			}
+		},
+
+		// 给用户展示的菜单处理
+		generateMenuRoutes() {
+			// 获取用户的路由表
+			const menuRoutes = constantRoute;
+			// 递归过滤路由表
+
+			// 过滤路由表
+			this.menuRoutes = menuRoutes;
 		}
 	},
 
