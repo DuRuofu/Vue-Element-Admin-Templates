@@ -17,11 +17,11 @@
 			<el-icon :size="16"><Setting /></el-icon>
 		</el-button>
 		<!-- 头像 -->
-		<el-avatar :size="24" :src="circleUrl" />
+		<el-avatar :size="28" :src="accountStore.accountInfo.AvatarUrl" />
 		<!-- 下拉框 -->
 		<el-dropdown>
 			<span class="el-dropdown-link">
-				Vue-Admin
+				{{ accountStore.accountInfo.Name }}
 				<el-icon class="el-icon--right">
 					<arrow-down />
 				</el-icon>
@@ -40,19 +40,20 @@
 <script setup lang="ts">
 // 导入element-plus 图标
 import { Setting, FullScreen, Message, ArrowDown, Refresh } from '@element-plus/icons-vue';
-import { reactive, toRefs } from 'vue';
+// import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 // 获取layout组件的数据
 import useLayoutSettingStore from '@/stores/modules/layout';
 const layoutSettingStore = useLayoutSettingStore();
 
-// 用户头像
-const state = reactive({
-	circleUrl: 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png'
-});
-const { circleUrl } = toRefs(state);
+// 获取用户仓库
+import useAcountStore from '@/stores/modules/account';
+const accountStore = useAcountStore();
+
 const router = useRouter();
 const goLogin = () => {
+	// 清除用户信息
+	accountStore.accountLogout();
 	router.push('/login');
 };
 

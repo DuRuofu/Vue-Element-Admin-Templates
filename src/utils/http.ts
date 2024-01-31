@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { ElMessage } from 'element-plus';
-
+import { GET_TOKEN } from '@/utils/token';
 const request = axios.create({
 	// 后端接口url
 	baseURL: `${import.meta.env.VITE_APP_BASE_URL}:${import.meta.env.VITE_APP_PORT}`,
@@ -16,6 +16,8 @@ const request = axios.create({
 request.interceptors.request.use(
 	function (config) {
 		// 在发送请求之前做些什么
+		// 添加token
+		config.headers['authorization'] = GET_TOKEN();
 		return config;
 	},
 	function (error) {

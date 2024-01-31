@@ -5,8 +5,9 @@ import type { LoginData, LoginResponseData } from './type';
 
 // 枚举请求地址
 enum API {
-	LOGIN_URL = '/v1/account/login',
-	REGISTER_URL = '/admin/acl/index/logout'
+	login_url = '/v1/account/login',
+	register_url = '/admin/acl/index/logout',
+	getAccountInfo_url = '/v1/account/getAccount'
 }
 
 // 注册
@@ -36,4 +37,7 @@ export const register = (data: any) => {
 // };
 
 // 登陆 第二种写法
-export const login = (data: LoginData) => request.post<any, LoginResponseData>(API.LOGIN_URL, data);
+export const login = (data: LoginData) => request.post<any, LoginResponseData>(API.login_url, data);
+
+// 获取用户信息
+export const getAccountInfo = () => request.get<any>(API.getAccountInfo_url);

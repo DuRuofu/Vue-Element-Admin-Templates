@@ -4,7 +4,7 @@ import { defineStore } from 'pinia';
 import type { LoginData, LoginResponseData } from '@/api/account/type';
 import type { AccountState } from './types/type';
 // 引入请求方法
-import { login } from '@/api/account/index';
+import { login, getAccountInfo } from '@/api/account/index';
 // 引入工具方法
 import { SET_TOKEN, GET_TOKEN } from '@/utils/token';
 
@@ -17,7 +17,8 @@ const useAccountStore = defineStore('Account', {
 	state: (): AccountState => {
 		return {
 			token: GET_TOKEN(), //用户的token
-			menuRoutes: constantRoute //用户的路由表(生成菜单所需)
+			menuRoutes: constantRoute, //用户的路由表(生成菜单所需)
+			accountInfo: {} //用户信息
 		};
 	},
 
@@ -40,12 +41,34 @@ const useAccountStore = defineStore('Account', {
 			}
 		},
 
+		//获取用户信息
+		async gteAccountInfo() {
+			try {
+				const res = (await getAccountInfo()) as any;
+				if (res.code == 200) {
+					this.accountInfo = res.data;
+				} else {
+					return Promise.reject(new Error());
+				}
+			} catch (error) {
+				return Promise.reject(new Error());
+			}
+		},
+
+		//退出登陆
+		async accountLogout() {
+			//清空token
+			this.token = null;
+			SET_TOKEN('');
+			//清空用户信息
+			this.accountInfo = {};
+		},
+
 		// 给用户展示的菜单处理
 		generateMenuRoutes() {
 			// 获取用户的路由表
 			const menuRoutes = constantRoute;
 			// 递归过滤路由表
-
 			// 过滤路由表
 			this.menuRoutes = menuRoutes;
 		}
