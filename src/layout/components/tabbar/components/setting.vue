@@ -5,7 +5,7 @@
 			<el-icon :size="16"><Refresh /></el-icon>
 		</el-button>
 		<!-- 全屏 -->
-		<el-button size="small" class="fullscreen" circle>
+		<el-button size="small" class="fullscreen" @click="fullScreen" circle>
 			<el-icon :size="16"><FullScreen /></el-icon>
 		</el-button>
 		<!-- 消息 -->
@@ -60,6 +60,19 @@ const goLogin = () => {
 const updateRrfresh = () => {
 	layoutSettingStore.refsh = !layoutSettingStore.refsh;
 	console.log(layoutSettingStore.refsh);
+};
+// 全屏按钮
+const fullScreen = () => {
+	console.log('全屏'); //DOM对象的一个属性:可以用来判断当前是不是全屏模式[全屏:true,不是全屏:false]
+	let full = document.fullscreenElement;
+	//切换为全屏模式
+	if (!full) {
+		//文档根节点的方法requestFullscreen,实现全屏模式
+		document.documentElement.requestFullscreen();
+	} else {
+		//变为不是全屏模式->退出全屏模式
+		document.exitFullscreen();
+	}
 };
 </script>
 
