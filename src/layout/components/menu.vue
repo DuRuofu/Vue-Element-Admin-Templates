@@ -6,8 +6,6 @@
 			</div>
 			<div class="title" v-if="!isCollapse ? true : false">Vue-Admin</div>
 		</div>
-		<!-- 动态生成菜单组件 -->
-		<Menu></Menu>
 		<el-sub-menu index="home">
 			<template #title>
 				<el-icon><icon-menu /></el-icon>
@@ -49,6 +47,10 @@
 // 导入element-plus 图标
 import { Menu as IconMenu, Setting, MoreFilled } from '@element-plus/icons-vue';
 import { ref } from 'vue';
+// 导入用户仓库
+//import useAccountStore from '@/stores/modules/account';
+//const accountStore = useAccountStore();
+
 // 菜单是否折叠,
 const isCollapse = ref(false);
 // 控制菜单折叠
@@ -87,6 +89,7 @@ defineExpose({
 
 // 菜单路由样式
 .el-menu {
+	width: 100%;
 	height: 100vh;
 	background: #001529;
 

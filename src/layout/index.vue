@@ -1,9 +1,9 @@
 <template>
 	<div class="menu">
 		<el-container>
-			<el-aside :width="isCollapse ? '64px' : '210px'" class="aside">
+			<el-aside class="aside" :width="isCollapse ? '64px' : '210px'">
 				<!-- 动态生成路由 -->
-				<Menu ref="menuP"></Menu>
+				<Menu ref="menuP" :width="!isCollapse ? '64px' : '210px'"></Menu>
 			</el-aside>
 			<el-container>
 				<el-header>
@@ -53,7 +53,8 @@
 <script setup lang="ts">
 import { reactive, toRefs, ref } from 'vue';
 import { useRouter } from 'vue-router';
-import Menu from './components/menu/index.vue';
+// 导入菜单组件
+import Menu from './components/menu.vue';
 // 导入element-plus 图标
 import { DArrowLeft, DArrowRight, FullScreen, Message, ArrowDown } from '@element-plus/icons-vue';
 
@@ -66,11 +67,13 @@ const { circleUrl } = toRefs(state);
 
 // 定义路由导航组件的引用
 const menuP = ref();
-// 忘记密码方法
+
+const isCollapse = ref(false);
+
+// 菜单组件折叠方法
 const menuFold = () => {
-	console.log('忘记密码');
-	// 打开忘记密码组件
 	menuP.value.menuFold();
+	isCollapse.value = !isCollapse.value;
 };
 
 const goLogin = () => {

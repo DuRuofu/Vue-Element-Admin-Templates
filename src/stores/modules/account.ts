@@ -7,12 +7,17 @@ import type { AccountState } from './types/type';
 import { login } from '@/api/account/index';
 // 引入工具方法
 import { SET_TOKEN, GET_TOKEN } from '@/utils/token';
+
+// 引入路由表
+import { constantRoute } from '@/router/routes';
+
 // 创建用户仓库
 const useAccountStore = defineStore('Account', {
 	//数据----------------------------------------------------//
 	state: (): AccountState => {
 		return {
-			token: GET_TOKEN() //用户的token
+			token: GET_TOKEN(), //用户的token
+			menuRoutes: constantRoute //用户的路由表(生成菜单所需)
 		};
 	},
 
