@@ -13,14 +13,14 @@ const useLayoutSettingStore = defineStore('SettingStore', {
 		// 切换暗黑模式
 		changeDark() {
 			// 获取html元素
-			const html = document.querySelector('html');
+			const html: any = document.querySelector('html');
 			// 判断是否是暗黑模式
 			this.dark ? (html.className = 'dark') : (html.className = '');
 		},
 		// 切换主题颜色
 		changeThemeColors() {
 			// 获取html元素
-			const html = document.querySelector('html');
+			const html: any = document.querySelector('html');
 			// 判断是否是暗黑模式
 			html.style.setProperty('--el-color-primary', this.themeColors);
 		},

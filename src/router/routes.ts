@@ -8,7 +8,7 @@ export const constantRoute = [
 		meta: {
 			title: 'Dashboard',
 			hidden: false,
-			icon: 'Menu'
+			icon: 'Odometer'
 		},
 		redirect: '/dataview',
 		children: [
@@ -101,6 +101,86 @@ export const constantRoute = [
 			}
 		]
 	},
+	// 功能页面
+	{
+		path: '/function',
+		name: 'function',
+		component: () => import('@/layout/index.vue'),
+		meta: {
+			title: '功能',
+			hidden: false,
+			icon: 'Operation'
+		},
+		redirect: '/echarts',
+		children: [
+			// echarts
+			{
+				path: '/echarts',
+				name: 'echarts',
+				meta: {
+					title: 'Echarts',
+					hidden: false,
+					icon: 'PieChart'
+				},
+				redirect: '/echarts/bar',
+				children: [
+					{
+						path: '/echarts/bar',
+						name: 'bar',
+						component: () => import('@/views/function/echarts/bar.vue'),
+						meta: {
+							title: '柱状图',
+							hidden: false,
+							icon: 'Histogram'
+						}
+					},
+					{
+						path: '/echarts/line',
+						name: 'line',
+						component: () => import('@/views/function/echarts/line.vue'),
+						meta: {
+							title: '折线图',
+							hidden: false,
+							icon: 'DataLine'
+						}
+					},
+					{
+						path: '/echarts/pie',
+						name: 'pie',
+						component: () => import('@/views/function/echarts/pie.vue'),
+						meta: {
+							title: '饼图',
+							hidden: false,
+							icon: 'PieChart'
+						}
+					}
+				]
+			},
+			// MQTT客户端
+			{
+				path: '/mqttclient',
+				name: 'mqttclient',
+				component: () => import('@/views/function/mqtt/index.vue'),
+				meta: {
+					title: 'MQTT客户端',
+					hidden: false,
+					icon: 'Phone'
+				}
+			},
+			// 打印功能
+			{
+				path: '/print',
+				name: 'print',
+				component: () => import('@/views/function/print/index.vue'),
+				meta: {
+					title: '打印功能',
+					hidden: false,
+					icon: 'Printer'
+				}
+			}
+		]
+	},
+
 	//关于页面
 	{
 		path: '/about',
