@@ -1,7 +1,6 @@
+import type { dividerProps } from 'element-plus';
 <template>
-	<div class="echarts-box">
-		<div id="myEcharts" :style="{ width: '100%', height: '100%' }"></div>
-	</div>
+	<div id="myEcharts" :style="{ width: '100%', height: '100%' }"></div>
 </template>
 
 <script setup lang="ts">
@@ -25,6 +24,9 @@ function initChart() {
 	let chart = echart.init(document.getElementById('myEcharts'));
 	// 把配置和数据放这里
 	chart.setOption({
+		title: {
+			text: '折线图演示'
+		},
 		xAxis: {
 			type: 'category',
 			data: [
@@ -64,8 +66,13 @@ function initChart() {
 </script>
 
 <style scoped lang="scss">
-.echarts-box {
+.box-card {
 	width: 100%;
-	height: 100%;
+	height: 500px;
+
+	.myEcharts {
+		width: 100%;
+		height: 100%;
+	}
 }
 </style>

@@ -25,6 +25,9 @@ function initChart() {
 	let chart = echart.init(document.getElementById('myEcharts'));
 	// 把配置和数据放这里
 	chart.setOption({
+		title: {
+			text: '饼状图演示'
+		},
 		legend: {
 			top: 'bottom'
 		},

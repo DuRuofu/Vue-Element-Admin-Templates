@@ -8,9 +8,12 @@
 // 导入Echarts
 import * as echarts from 'echarts';
 import { onMounted, onUnmounted } from 'vue';
+// 引入中国地图数据
+import chinaJson from '@/assets/json/china.json';
 /// 声明定义一下echart
 let echart = echarts;
-
+// 注册地图
+echarts.registerMap('china', chinaJson);
 // 组件挂载完成
 onMounted(() => {
 	initChart();
@@ -25,40 +28,25 @@ function initChart() {
 	let chart = echart.init(document.getElementById('myEcharts'));
 	// 把配置和数据放这里
 	chart.setOption({
-		legend: {
-			top: 'bottom'
+		// 标题
+		title: {
+			text: '地图演示'
 		},
-		toolbox: {
-			show: true,
-			feature: {
-				mark: { show: true },
-				dataView: { show: true, readOnly: false },
-				restore: { show: true },
-				saveAsImage: { show: true }
+		// 地图组件
+		geo: {
+			map: 'china',
+			roam: true, //鼠标缩放
+			left: 0,
+			right: 0,
+			// 显示的文字
+			label: {
+				show: true
+			},
+			// 每一个多边形的样式
+			itemStyle: {
+				color: '#fff'
 			}
-		},
-		series: [
-			{
-				name: 'Nightingale Chart',
-				type: 'pie',
-				radius: [50, 250],
-				center: ['50%', '50%'],
-				roseType: 'area',
-				itemStyle: {
-					borderRadius: 8
-				},
-				data: [
-					{ value: 40, name: 'rose 1' },
-					{ value: 38, name: 'rose 2' },
-					{ value: 32, name: 'rose 3' },
-					{ value: 30, name: 'rose 4' },
-					{ value: 28, name: 'rose 5' },
-					{ value: 26, name: 'rose 6' },
-					{ value: 22, name: 'rose 7' },
-					{ value: 18, name: 'rose 8' }
-				]
-			}
-		]
+		}
 	});
 	window.onresize = function () {
 		//自适应大小
@@ -73,3 +61,5 @@ function initChart() {
 	height: 100%;
 }
 </style>
+
+<!-- https://datav.aliyun.com/portal/school/atlas/area_selector -->
