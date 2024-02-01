@@ -13,6 +13,8 @@ import 'virtual:svg-icons-register';
 import gloablComponent from './components/index';
 // 导入全局样式
 import '@/styles/index.scss';
+// 导入暗黑模式样式
+import 'element-plus/theme-chalk/dark/css-vars.css';
 // 在某些条件下隐藏元素
 import 'element-plus/theme-chalk/display.css';
 // 导入路由鉴权模块

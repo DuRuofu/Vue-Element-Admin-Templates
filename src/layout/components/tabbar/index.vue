@@ -45,8 +45,7 @@ export default {
 	width: 100%;
 	height: 48px;
 	padding: 0;
-	background: #fff;
-	box-shadow: 0 0 5px 1px #c2bebe;
+	box-shadow: 0 3px 5px -5px #c2bebe;
 
 	.menu-fold-button {
 		display: flex;

@@ -13,7 +13,7 @@
 			<el-icon :size="16"><Message /></el-icon>
 		</el-button>
 		<!-- 设置 -->
-		<el-button size="small" class="setting" circle>
+		<el-button size="small" class="setting" @click="webSetting" circle>
 			<el-icon :size="16"><Setting /></el-icon>
 		</el-button>
 		<!-- 头像 -->
@@ -35,17 +35,92 @@
 			</template>
 		</el-dropdown>
 	</div>
+	<!-- 设置抽屉 -->
+	<el-drawer v-model="drawer" class="drawer" size="250px" title="项目配置" :with-header="true">
+		<template #header>
+			<div class="drawer-haheader">
+				<h2>系统配置</h2>
+			</div>
+		</template>
+		<div class="drawe-content">
+			<el-divider>主题</el-divider>
+			<el-switch
+				v-model="layoutSettingStore.dark"
+				size="large"
+				@change="layoutSettingStore.changeDark"
+				:active-action-icon="Moon"
+				:inactive-action-icon="Sunny"
+				style="
+
+--el-switch-on-color: #323734; --el-switch-off-color: #a0b4a8" />
+			<el-divider>配色</el-divider>
+			<el-form>
+				<el-form-item label="主题色:">
+					<el-color-picker
+						v-model="layoutSettingStore.themeColors"
+						@change="layoutSettingStore.changeThemeColors" />
+				</el-form-item>
+			</el-form>
+			<el-divider>界面功能</el-divider>
+			<el-form>
+				<el-form-item label="功能1">
+					<el-switch />
+				</el-form-item>
+				<el-form-item label="功能2">
+					<el-switch />
+				</el-form-item>
+				<el-form-item label="功能3">
+					<el-switch />
+				</el-form-item>
+				<el-form-item label="功能4">
+					<el-switch />
+				</el-form-item>
+			</el-form>
+			<el-divider>界面展示</el-divider>
+			<el-form>
+				<el-form-item label="功能1">
+					<el-switch />
+				</el-form-item>
+				<el-form-item label="功能2">
+					<el-switch />
+				</el-form-item>
+				<el-form-item label="功能3">
+					<el-switch />
+				</el-form-item>
+				<el-form-item label="功能4">
+					<el-switch />
+				</el-form-item>
+			</el-form>
+			<el-divider></el-divider>
+			<el-button
+				class="botton-bottom"
+				type="warning"
+				:icon="Refresh"
+				@click="layoutSettingStore.resetSetting">
+				重置
+			</el-button>
+		</div>
+	</el-drawer>
 </template>
 
 <script setup lang="ts">
 // 导入element-plus 图标
-import { Setting, FullScreen, Message, ArrowDown, Refresh } from '@element-plus/icons-vue';
-// import { ref } from 'vue';
+import {
+	Setting,
+	FullScreen,
+	Message,
+	ArrowDown,
+	Refresh,
+	Moon,
+	Sunny
+} from '@element-plus/icons-vue';
+import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 // 获取layout组件的数据
 import useLayoutSettingStore from '@/stores/modules/layout';
 const layoutSettingStore = useLayoutSettingStore();
-
+// drawer控制抽屉开启关闭
+const drawer = ref(false);
 // 获取用户仓库
 import useAcountStore from '@/stores/modules/account';
 const accountStore = useAcountStore();
@@ -75,6 +150,10 @@ const fullScreen = () => {
 		document.exitFullscreen();
 	}
 };
+// 设置按钮
+const webSetting = () => {
+	drawer.value = true;
+};
 </script>
 
 <style scoped lang="scss">
@@ -99,6 +178,29 @@ const fullScreen = () => {
 
 	.setting {
 		margin-right: 14px;
+	}
+}
+
+.drawer {
+	.drawer-haheader {
+		height: 10px;
+	}
+
+	.drawe-content {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+	}
+
+	// .el-form {
+	// 	width: 100%;
+
+	// 	.el-form-item {
+	// 		width: 100%;
+	// 	}
+	// }
+	.botton-bottom {
+		width: 100%;
 	}
 }
 </style>

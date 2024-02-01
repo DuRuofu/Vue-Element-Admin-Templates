@@ -76,8 +76,8 @@ const menuFold = () => {
 .el-menu {
 	width: 100%;
 	height: 100vh;
-	color: #c3c5c8;
-	background: #001529;
+
+	// background: #1d1e1f;
 
 	// 菜单头部
 	.menu-head {
@@ -96,8 +96,9 @@ const menuFold = () => {
 
 			// 字体加粗
 			font-weight: bolder;
-			color: #fff;
-			background: #001529;
+
+			// color: #fff;
+			// background: #001529;
 		}
 	}
 }

@@ -44,32 +44,32 @@ export default {
 };
 </script>
 <style scoped lang="scss">
-.el-sub-menu {
-	background: #001529;
-}
+// .el-sub-menu {
+// 	//background: #1d1e1f;
+// }
 
-.el-menu-item {
-	color: #c3c5c8;
-	background: #001529;
-}
+// .el-menu-item {
+// 	//color: #c3c5c8;
+// 	//background: #1d1e1f;
+// }
 
-// 样式穿透设置菜单字体颜色
-:deep(.el-sub-menu__title) {
-	color: #c3c5c8;
-}
+// // 样式穿透设置菜单字体颜色
+// :deep(.el-sub-menu__title) {
+// 	//color: #c3c5c8;
+// }
 
-// 样式穿透设置动态样式
-:deep(.el-menu-item:hover) {
-	color: #fff !important;
-	background: #001529 !important;
-}
+// // 样式穿透设置动态样式
+// :deep(.el-menu-item:hover) {
+// 	//color: #fff !important;
+// 	//background: #121212 !important;
+// }
 
-:deep(.el-sub-menu__title:hover) {
-	color: #fff;
-	background: #001529;
-}
+// :deep(.el-sub-menu__title:hover) {
+// 	//color: #fff;
+// 	//background: #121212;
+// }
 
-:deep(.el-sub-menu:hover) {
-	background: #001529;
-}
+// :deep(.el-sub-menu:hover) {
+// 	//background: #121212;
+// }
 </style>
