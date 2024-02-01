@@ -1,11 +1,13 @@
 import { fileURLToPath, URL } from 'node:url';
 import { createSvgIconsPlugin } from 'vite-plugin-svg-icons';
 import { viteMockServe } from 'vite-plugin-mock';
-import { defineConfig } from 'vite';
+import { defineConfig, loadEnv } from 'vite';
 import vue from '@vitejs/plugin-vue';
 import path from 'path';
 // https://vitejs.dev/config/
-export default defineConfig((command) => {
+export default defineConfig(({ command, mode }) => {
+	// 获取环境变量
+	const env = loadEnv(mode, process.cwd());
 	return {
 		plugins: [
 			vue(),
@@ -46,7 +48,16 @@ export default defineConfig((command) => {
 			// 允许跨域
 			cors: true,
 			// 自定义代理规则
-			proxy: {}
+			proxy: {
+				[env.VITE_APP_BASE_URL]: {
+					// 获取数据的服务器地址
+					target: `${env.VITE_APP_BASE_URL}:${env.VITE_APP_PORT}`,
+					// 是否代理跨域
+					changeOrigin: true
+					// 路径重写
+					//rewrite: (path) => path.replace(new RegExp(`^${env.VITE_APP_BASE_URL}`), '')
+				}
+			}
 		}
 	};
 });

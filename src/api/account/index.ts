@@ -3,7 +3,7 @@ import type { LoginData, LoginResponseData } from './type';
 
 // 导入类型
 
-// 枚举请求地址
+// 枚举账户相关请求地址
 enum API {
 	login_url = '/v1/account/login',
 	register_url = '/admin/acl/index/logout',
@@ -39,5 +39,5 @@ export const register = (data: any) => {
 // 登陆 第二种写法
 export const login = (data: LoginData) => request.post<any, LoginResponseData>(API.login_url, data);
 
-// 获取用户信息
-export const getAccountInfo = () => request.get<any>(API.getAccountInfo_url);
+// 获取单个用户信息
+export const getAccountInfo = () => request.get<any, any>(API.getAccountInfo_url);
