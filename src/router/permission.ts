@@ -45,14 +45,16 @@ router.beforeEach(async (to: any, from: any, next: any) => {
 			next('/login');
 		}
 	}
+	nprogress.done();
 });
 
 // 全局路由守卫(后置)
-router.afterEach((to: any, from: any, next: any) => {
-	// 关闭进度条
-	nprogress.done();
-	next();
-});
+// router.afterEach((to: any, from: any, next: any) => {
+// 	// 关闭进度条
+
+// 	//next();
+// 	//return;
+// });
 
 // 用户未登陆时,只能访问login页面
 // 用户已登陆时,根据权限,可以访问特定页面

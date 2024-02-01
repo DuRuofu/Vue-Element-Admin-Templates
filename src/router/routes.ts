@@ -153,6 +153,26 @@ export const constantRoute = [
 							hidden: false,
 							icon: 'PieChart'
 						}
+					},
+					{
+						path: '/echarts/radar',
+						name: 'radar',
+						component: () => import('@/views/function/echarts/radar.vue'),
+						meta: {
+							title: '雷达图',
+							hidden: false,
+							icon: 'PieChart'
+						}
+					},
+					{
+						path: '/echarts/map',
+						name: 'map',
+						component: () => import('@/views/function/echarts/map.vue'),
+						meta: {
+							title: '地图',
+							hidden: false,
+							icon: 'PieChart'
+						}
 					}
 				]
 			},
