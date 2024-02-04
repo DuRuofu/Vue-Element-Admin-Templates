@@ -13,7 +13,7 @@ import chinaJson from '@/assets/json/china.json';
 /// 声明定义一下echart
 let echart = echarts;
 // 注册地图
-echarts.registerMap('china', chinaJson);
+echarts.registerMap('china', chinaJson as any);
 // 组件挂载完成
 onMounted(() => {
 	initChart();
@@ -44,7 +44,8 @@ function initChart() {
 			},
 			// 每一个多边形的样式
 			itemStyle: {
-				color: '#fff'
+				areaColor: '#fff',
+				borderColor: '#111'
 			}
 		}
 	});
