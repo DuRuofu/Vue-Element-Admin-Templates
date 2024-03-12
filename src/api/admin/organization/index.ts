@@ -23,3 +23,7 @@ export const addOrganization = (data: any) =>
 // 修改组织
 export const updateOrganization = (id: number, data: any) =>
 	request.put<any, any>(`v1/organization/organizations/${id}`, data);
+
+// 删除组织
+export const deleteOrganization = (id: number) =>
+	request.delete<any, any>(`v1/organization/organizations/${id}`);

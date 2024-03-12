@@ -15,3 +15,9 @@ export const getTime = () => {
 	}
 	return message;
 };
+
+//时间转换
+export const convertTimeStringToNormal = (timeString: any) => {
+	const dateTime = new Date(timeString);
+	return dateTime.toLocaleString();
+};

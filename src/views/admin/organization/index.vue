@@ -13,13 +13,19 @@
 			border>
 			<el-table-column prop="Name" label="组织名称" sortable />
 			<el-table-column prop="LevelName" label="层级名称" sortable />
+			<el-table-column prop="IsDsisabled" label="状态" sortable />
 			<el-table-column prop="Description" label="描述" sortable />
-			<el-table-column prop="CreatedTime" label="创建时间" sortable />
+			<el-table-column prop="CreatedTime" label="创建时间" sortable :formatter="formatTime" />
+			<el-table-column prop="UpdatedTime" label="更新时间" sortable :formatter="formatTime" />
 			<el-table-column align="center" label="操作">
 				<template #="{ row, $index }">
-					<el-button type="primary" size="small" icon="Edit" @click="editButton"></el-button>
+					<el-button type="primary" size="small" icon="Edit" @click="editButton(row)"></el-button>
 					<el-divider direction="vertical" />
-					<el-button type="danger" size="small" icon="Delete"></el-button>
+					<el-button
+						type="danger"
+						size="small"
+						icon="Delete"
+						@click="deleteButton(row)"></el-button>
 				</template>
 			</el-table-column>
 		</el-table>
@@ -58,7 +64,7 @@
 		<!-- 添加/修改组织表单提交 -->
 		<template #footer>
 			<div class="dialog-footer">
-				<el-button @click="dialogVisible = false">取消</el-button>
+				<el-button @click="addOrgDialogVisible = false">取消</el-button>
 				<el-button type="primary" @click="addOrUpdateOrg">确认</el-button>
 			</div>
 		</template>
@@ -108,13 +114,27 @@ const Parent = ref('');
 // 上级组织选框数据更新
 const handleChange = () => {
 	console.log(Parent.value);
+	// 获取数组索引最大值
+	const maxIndex = Parent.value.length - 1;
 	// 获取父级ID
-	const maxIndex = Math.max(...Object.keys(Parent.value));
 	ParentId.value = Parent.value[maxIndex];
 	// 计算自身层级
-	Level.value = maxIndex + 1;
+	if (ParentId.value == '0') {
+		Level.value = (maxIndex + 0).toString();
+	} else {
+		Level.value = (maxIndex + 1).toString();
+	}
+
 	// 更新层级名称
-	LevelName.value = levelOptions[Level.value].LevelName;
+	LevelName.value = levelOptions[+Level.value].LevelName;
+};
+
+// 表格时间栏格式化
+const formatTime = (row: any, column: any) => {
+	const time = row[column.property];
+	// 进行时间格式化或其他处理
+	const dateTime = new Date(time);
+	return dateTime.toLocaleString();
 };
 
 /**
@@ -124,10 +144,10 @@ const handleChange = () => {
  * @param {number} currentLevel - 当前处理的层级，默认为0
  * @returns {Array} - 更新后的数据数组
  */
-const updateSelectType = (data, maxLevel, currentLevel = 1) => {
+const updateSelectType = (data: any, maxLevel: any, currentLevel = 1) => {
 	// 遍历data，返回新的item，并判断是否有子节点，有子节点则继续递归调用
-	return data.map((item) => {
-		const newItem = {
+	return data.map((item: any) => {
+		const newItem: any = {
 			value: item.OrganizationId,
 			label: item.Name
 		};
@@ -145,17 +165,47 @@ const addButton = () => {
 	// 清空表单
 	Name.value = '';
 	Description.value = '';
-	Level.value = 1;
+	Level.value = '1';
 	LevelName.value = '';
-	Parent.value = {};
-	ParentId.value = 0;
+	Parent.value = '';
+	ParentId.value = '0';
 };
 
-const editButton = () => {
+const editButton = (row: any) => {
 	addOrgDialogVisible.value = true;
 	isAdd.value = false; // 设置为编辑模式
 	// 填充表单
-	// OrganizationId.value = currentOrg.value.OrganizationId;
+	console.log(row);
+	OrganizationId.value = row.OrganizationId;
+	Name.value = row.Name;
+	Description.value = row.Description;
+	Level.value = row.Level;
+	LevelName.value = row.LevelName;
+	ParentId.value = row.ParentId;
+	// 父级默认选择
+	Parent.value = findPathByValue(options.value, ParentId.value); // 保存父节点信息
+};
+
+const findPathByValue = (data: any, targetValue: any, currentPath: any = []) => {
+	for (const item of data) {
+		const newPath = [...currentPath, item.value]; // 添加当前节点的 value 到路径数组中
+		if (item.value === targetValue) {
+			return newPath; // 如果找到目标值，返回路径数组
+		}
+		if (item.children) {
+			const result: any = findPathByValue(item.children, targetValue, newPath); // 递归调用，传入子节点和新的路径数组
+			if (result) {
+				return result; // 如果在子节点中找到目标值，返回对应的路径数组
+			}
+		} else if (item.value === targetValue) {
+			return newPath; // 如果数据只有一层且当前节点值等于目标值，直接返回路径数组
+		}
+	}
+	return null; // 如果未找到目标值，返回 null
+};
+
+const deleteButton = (row: any) => {
+	console.log(row);
 };
 
 // 添加/修改组织
@@ -183,8 +233,7 @@ const addOrUpdateOrg = async () => {
 		}
 	} else {
 		// 修改模式
-		const res = await updateOrganization({
-			Id: OrganizationId.value,
+		const res = await updateOrganization(+OrganizationId.value, {
 			Name: Name.value,
 			Description: Description.value,
 			Level: Level.value,
@@ -216,6 +265,7 @@ const getTableData = async () => {
 		tableData.value = res.data;
 		// 修改/更新框选型更新(最后一级不展示，控制深度)
 		options.value = updateSelectType(tableData.value, levelOptions.length);
+		options.value.push({ value: '0', label: '无' });
 	} else {
 		ElMessage.error(res.msg);
 	}
