@@ -1,13 +1,12 @@
 import request from '@/utils/http';
-import type { LoginData, LoginResponseData } from './type';
 
 // 导入类型
+import type { LoginData, LoginResponseData } from './type';
 
 // 枚举账户相关请求地址
 enum API {
 	login_url = '/v1/account/login',
-	register_url = '/admin/acl/index/logout',
-	getAccountInfo_url = '/v1/account/getAccount'
+	getAccountInfo_url = '/v1/account/account'
 }
 
 // 注册
