@@ -6,10 +6,10 @@
 			<el-button type="primary" icon="Plus">添加</el-button>
 		</div>
 		<!-- 卡片中部表格 -->
-		<el-table border :data="tableData">
+		<el-table border :data="tableData" :table-layout="tableLayout">
 			<el-table-column align="center" label="序号" type="index"></el-table-column>
 			<el-table-column align="center" label="账号" prop="Account"></el-table-column>
-			<el-table-column align="center" label="头像" :width="90">
+			<el-table-column align="center" label="头像">
 				<template #="{ row, $index }">
 					<img :src="row.AvatarUrl" alt="无头像" style="width: 50px; height: 50px" />
 				</template>
@@ -48,6 +48,8 @@ import { ref, onMounted } from 'vue';
 import { ElMessage } from 'element-plus';
 import { getAllAccountList } from '@/api/admin/account/index';
 
+// 表格宽度自动适应
+const tableLayout = ref('auto');
 // 表格当前页码
 const currentPage = ref<number>(1);
 // 表格每页显示条目个数
