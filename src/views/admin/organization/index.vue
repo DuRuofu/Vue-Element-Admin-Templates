@@ -10,13 +10,29 @@
 			:data="tableData"
 			style="width: 100%; margin-bottom: 20px"
 			row-key="OrganizationId"
+			:table-layout="tableLayout"
 			border>
-			<el-table-column prop="Name" label="组织名称" sortable />
-			<el-table-column prop="LevelName" label="层级名称" sortable />
-			<el-table-column prop="IsDsisabled" label="状态" sortable />
-			<el-table-column prop="Description" label="描述" sortable />
-			<el-table-column prop="CreatedTime" label="创建时间" sortable :formatter="formatTime" />
-			<el-table-column prop="UpdatedTime" label="更新时间" sortable :formatter="formatTime" />
+			<el-table-column prop="Name" label="组织名称" sortable align="center" />
+			<el-table-column prop="LevelName" label="层级名称" sortable align="center" />
+			<el-table-column label="状态" sortable align="center">
+				<template #default="{ row }">
+					<el-tag v-if="row.IsDsisabled" type="danger">禁用</el-tag>
+					<el-tag v-else type="success">启用</el-tag>
+				</template>
+			</el-table-column>
+			<el-table-column prop="Description" label="描述" sortable align="center" />
+			<el-table-column
+				prop="CreatedTime"
+				label="创建时间"
+				sortable
+				:formatter="formatTime"
+				align="center" />
+			<el-table-column
+				prop="UpdatedTime"
+				label="更新时间"
+				sortable
+				:formatter="formatTime"
+				align="center" />
 			<el-table-column align="center" label="操作">
 				<template #="{ row, $index }">
 					<el-button type="primary" size="small" icon="Edit" @click="editButton(row)"></el-button>
@@ -46,13 +62,14 @@
 					:props="{ checkStrictly: true }"
 					:show-all-levels="false"
 					@change="handleChange"
+					ref="refSelect"
 					clearable />
 			</el-form-item>
 			<el-form-item label="所属层级">
 				<el-input v-model="LevelName" disabled></el-input>
 			</el-form-item>
 			<el-form-item label="启用状态">
-				<el-radio-group v-model="ISDisabled">
+				<el-radio-group v-model="IsDsisabled">
 					<el-radio label="0">启用</el-radio>
 					<el-radio label="1">禁用</el-radio>
 				</el-radio-group>
@@ -73,13 +90,16 @@
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
-import { ElMessage } from 'element-plus';
+import { ElMessage, ElMessageBox } from 'element-plus';
 import {
 	getOrganizationTrees,
 	addOrganization,
-	updateOrganization
+	updateOrganization,
+	deleteOrganization
 } from '@/api/admin/organization';
 
+// 表格宽度自动适应
+const tableLayout = ref('auto');
 // 表格数据
 const tableData = ref<any[]>([]);
 
@@ -100,12 +120,13 @@ const Name = ref('');
 const Description = ref('1');
 const Level = ref('0');
 const LevelName = ref('');
-const ISDisabled = ref('0');
+const IsDsisabled = ref('0');
 const ParentId = ref('');
 
 // 添加/编辑模式标志
 let isAdd = ref(true);
 
+const refSelect = ref();
 // 上级组织选框选项数据
 const options = ref<any[]>([]);
 // 选框数据
@@ -124,9 +145,14 @@ const handleChange = () => {
 	} else {
 		Level.value = (maxIndex + 1).toString();
 	}
-
 	// 更新层级名称
 	LevelName.value = levelOptions[+Level.value].LevelName;
+
+	// 选框填写自动收起
+	if (refSelect.value) {
+		console.log(refSelect.value);
+		refSelect.value.togglePopperVisible();
+	}
 };
 
 // 表格时间栏格式化
@@ -167,7 +193,7 @@ const addButton = () => {
 	Description.value = '';
 	Level.value = '1';
 	LevelName.value = '';
-	Parent.value = '';
+	Parent.value = '0';
 	ParentId.value = '0';
 };
 
@@ -181,6 +207,7 @@ const editButton = (row: any) => {
 	Description.value = row.Description;
 	Level.value = row.Level;
 	LevelName.value = row.LevelName;
+	IsDsisabled.value = row.IsDsisabled ? '1' : '0';
 	ParentId.value = row.ParentId;
 	// 父级默认选择
 	Parent.value = findPathByValue(options.value, ParentId.value); // 保存父节点信息
@@ -204,8 +231,30 @@ const findPathByValue = (data: any, targetValue: any, currentPath: any = []) => 
 	return null; // 如果未找到目标值，返回 null
 };
 
+// 删除按钮
 const deleteButton = (row: any) => {
-	console.log(row);
+	// 弹窗确认
+	ElMessageBox.confirm('此操作将永久删除该组织, 是否继续?', '提示', {
+		confirmButtonText: '确定',
+		cancelButtonText: '取消',
+		type: 'warning'
+	})
+		.then(() => {
+			// 发送请求
+			deleteOrganization(row.OrganizationId)
+				.then((res) => {
+					// 删除成功后刷新表格
+					getTableData();
+					// 弹窗
+					ElMessage.success(res.msg);
+				})
+				.catch(() => {
+					ElMessage.info('删除失败');
+				});
+		})
+		.catch(() => {
+			ElMessage.info('已取消删除');
+		});
 };
 
 // 添加/修改组织
@@ -218,7 +267,7 @@ const addOrUpdateOrg = async () => {
 			Level: Level.value,
 			LevelName: LevelName.value,
 			ParentId: ParentId.value,
-			ISDisabled: ISDisabled.value
+			IsDsisabled: IsDsisabled.value
 		});
 		console.log(res);
 		if (res.code === 200) {
@@ -239,7 +288,7 @@ const addOrUpdateOrg = async () => {
 			Level: Level.value,
 			LevelName: LevelName.value,
 			ParentId: ParentId.value,
-			ISDisabled: ISDisabled.value
+			IsDsisabled: IsDsisabled.value
 		});
 		console.log(res);
 		if (res.code === 200) {
@@ -265,7 +314,7 @@ const getTableData = async () => {
 		tableData.value = res.data;
 		// 修改/更新框选型更新(最后一级不展示，控制深度)
 		options.value = updateSelectType(tableData.value, levelOptions.length);
-		options.value.push({ value: '0', label: '无' });
+		options.value.unshift({ value: '0', label: '无上级' });
 	} else {
 		ElMessage.error(res.msg);
 	}
