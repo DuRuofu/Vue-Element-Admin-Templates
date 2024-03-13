@@ -16,7 +16,7 @@
 			<el-table-column prop="LevelName" label="层级名称" sortable align="center" />
 			<el-table-column label="状态" sortable align="center">
 				<template #default="{ row }">
-					<el-tag v-if="row.IsDsisabled" type="danger">禁用</el-tag>
+					<el-tag v-if="row.IsDisabled" type="danger">禁用</el-tag>
 					<el-tag v-else type="success">启用</el-tag>
 				</template>
 			</el-table-column>
@@ -69,7 +69,7 @@
 				<el-input v-model="LevelName" disabled></el-input>
 			</el-form-item>
 			<el-form-item label="启用状态">
-				<el-radio-group v-model="IsDsisabled">
+				<el-radio-group v-model="IsDisabled">
 					<el-radio label="0">启用</el-radio>
 					<el-radio label="1">禁用</el-radio>
 				</el-radio-group>
@@ -120,7 +120,7 @@ const Name = ref('');
 const Description = ref('1');
 const Level = ref('0');
 const LevelName = ref('');
-const IsDsisabled = ref('0');
+const IsDisabled = ref('0');
 const ParentId = ref('');
 
 // 添加/编辑模式标志
@@ -207,7 +207,7 @@ const editButton = (row: any) => {
 	Description.value = row.Description;
 	Level.value = row.Level;
 	LevelName.value = row.LevelName;
-	IsDsisabled.value = row.IsDsisabled ? '1' : '0';
+	IsDisabled.value = row.IsDisabled ? '1' : '0';
 	ParentId.value = row.ParentId;
 	// 父级默认选择
 	Parent.value = findPathByValue(options.value, ParentId.value); // 保存父节点信息
@@ -267,7 +267,7 @@ const addOrUpdateOrg = async () => {
 			Level: Level.value,
 			LevelName: LevelName.value,
 			ParentId: ParentId.value,
-			IsDsisabled: IsDsisabled.value
+			IsDisabled: IsDisabled.value
 		});
 		console.log(res);
 		if (res.code === 200) {
@@ -288,7 +288,7 @@ const addOrUpdateOrg = async () => {
 			Level: Level.value,
 			LevelName: LevelName.value,
 			ParentId: ParentId.value,
-			IsDsisabled: IsDsisabled.value
+			IsDisabled: IsDisabled.value
 		});
 		console.log(res);
 		if (res.code === 200) {
