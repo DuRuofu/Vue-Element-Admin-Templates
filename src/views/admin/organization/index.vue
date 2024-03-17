@@ -98,6 +98,8 @@ import {
 	deleteOrganization
 } from '@/api/admin/organization';
 
+import { formatTime } from '@/utils/time';
+
 // 表格宽度自动适应
 const tableLayout = ref('auto');
 // 表格数据
@@ -153,14 +155,6 @@ const handleChange = () => {
 		console.log(refSelect.value);
 		refSelect.value.togglePopperVisible();
 	}
-};
-
-// 表格时间栏格式化
-const formatTime = (row: any, column: any) => {
-	const time = row[column.property];
-	// 进行时间格式化或其他处理
-	const dateTime = new Date(time);
-	return dateTime.toLocaleString();
 };
 
 /**

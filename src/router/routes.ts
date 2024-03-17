@@ -90,8 +90,8 @@ export const constantRoute = [
 				}
 			},
 			{
-				path: '/function',
-				name: 'function',
+				path: '/route',
+				name: 'route',
 				component: () => import('@/views/admin/function/index.vue'),
 				meta: {
 					title: '功能管理',

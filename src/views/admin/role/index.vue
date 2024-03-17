@@ -91,6 +91,7 @@
 import { ref, onMounted } from 'vue';
 import { ElMessage, ElMessageBox } from 'element-plus';
 import { getRoles, deleteRoles, addRoles, updateRoles } from '@/api/admin/role/index';
+import { formatTime } from '@/utils/time';
 
 // -----------data----------------
 // 表格宽度自动适应
@@ -218,15 +219,6 @@ const getTableData = async () => {
 onMounted(() => {
 	getTableData(); // 获取表格数据
 });
-
-// ----------工具函数------------
-// 表格时间栏格式化
-const formatTime = (row: any, column: any) => {
-	const time = row[column.property];
-	// 进行时间格式化或其他处理
-	const dateTime = new Date(time);
-	return dateTime.toLocaleString();
-};
 </script>
 
 <style scoped lang="scss">

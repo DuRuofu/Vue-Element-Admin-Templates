@@ -17,7 +17,9 @@ export const getTime = () => {
 };
 
 //时间转换
-export const convertTimeStringToNormal = (timeString: any) => {
-	const dateTime = new Date(timeString);
+export const formatTime = (row: any, column: any) => {
+	const time = row[column.property];
+	// 进行时间格式化或其他处理
+	const dateTime = new Date(time);
 	return dateTime.toLocaleString();
 };
