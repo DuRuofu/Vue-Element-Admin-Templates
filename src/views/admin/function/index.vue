@@ -3,7 +3,7 @@
 	<el-card class="box-card" fit="true">
 		<!-- 卡片头部添加按钮 -->
 		<div class="button">
-			<el-button type="primary" icon="Plus" @click="addButton">添加组织</el-button>
+			<el-button type="danger" icon="CircleCloseFilled" @click="resetButton">重置权限</el-button>
 		</div>
 		<!-- 卡片中部表格 -->
 		<el-table
@@ -36,12 +36,6 @@
 				sortable
 				:formatter="formatTime"
 				align="center" />
-			<el-table-column
-				prop="UpdatedTime"
-				label="更新时间"
-				sortable
-				:formatter="formatTime"
-				align="center" />
 			<el-table-column align="center" label="操作">
 				<template #="{ row, $index }">
 					<el-button type="primary" size="small" icon="Edit" @click="editButton(row)"></el-button>
@@ -62,15 +56,34 @@
 import { ref, onMounted } from 'vue';
 import { ElMessage, ElMessageBox } from 'element-plus';
 import { formatTime } from '@/utils/time';
-import { getFunctionList } from '@/api/admin/function/index';
+import { getFunctionList, putFunctionList, deleteFunction } from '@/api/admin/function/index';
 // 表格宽度自动适应
 const tableLayout = ref('auto');
 // 表格数据
 const tableData = ref<any[]>([]);
 
 // 操作按钮
-const addButton = () => {
-	ElMessage('添加功能');
+const resetButton = () => {
+	// 确认弹窗
+	ElMessageBox.confirm('此操作将重置所有权限, 是否继续?', '提示', {
+		confirmButtonText: '确定',
+		cancelButtonText: '取消',
+		type: 'warning'
+	})
+		.then(async () => {
+			const res = await putFunctionList();
+			if (res.code === 200) {
+				// 刷新数据
+				getTableData();
+				// 弹窗
+				ElMessage.success('重置成功');
+			} else {
+				ElMessage.error('重置失败');
+			}
+		})
+		.catch(() => {
+			ElMessage('已取消重置');
+		});
 };
 
 const editButton = (row: any) => {
@@ -85,8 +98,16 @@ const deleteButton = (row: any) => {
 		cancelButtonText: '取消',
 		type: 'warning'
 	})
-		.then(() => {
-			ElMessage('删除成功');
+		.then(async () => {
+			const res = await deleteFunction(row.PermissionId);
+			if (res.code === 200) {
+				// 刷新数据
+				getTableData();
+				// 弹窗
+				ElMessage.success('删除成功');
+			} else {
+				ElMessage.error('删除失败');
+			}
 		})
 		.catch(() => {
 			ElMessage('已取消删除');
@@ -112,4 +133,9 @@ onMounted(() => {
 	getTableData(); // 获取表格数据
 });
 </script>
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+// 按键样式
+.button {
+	margin-bottom: 10px;
+}
+</style>

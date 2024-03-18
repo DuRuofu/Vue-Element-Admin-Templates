@@ -1,4 +1,4 @@
-// 对外暴露配置路由
+// 静态路由
 export const constantRoute = [
 	// dashboard页面
 	{
@@ -10,11 +10,11 @@ export const constantRoute = [
 			hidden: false,
 			icon: 'Odometer'
 		},
-		redirect: '/dataview',
+		redirect: '/dashboard/dataview',
 		children: [
 			// 数据概览
 			{
-				path: '/dataview',
+				path: '/dashboard/dataview',
 				name: 'dataview',
 				component: () => import('@/views/dashboard/dataview/index.vue'),
 				meta: {
@@ -25,7 +25,7 @@ export const constantRoute = [
 			},
 			//工作台
 			{
-				path: '/workbench',
+				path: '/dashboard/workbench',
 				name: 'workbench',
 				component: () => import('@/views/dashboard/workbench/index.vue'),
 				meta: {
@@ -36,7 +36,6 @@ export const constantRoute = [
 			}
 		]
 	},
-
 	// 管理页面
 	{
 		path: '/admin',
@@ -47,10 +46,10 @@ export const constantRoute = [
 			hidden: false,
 			icon: 'Setting'
 		},
-		redirect: '/organization',
+		redirect: '/admin/organization',
 		children: [
 			{
-				path: '/organization',
+				path: '/admin/organization',
 				name: 'organization',
 				component: () => import('@/views/admin/organization/index.vue'),
 				meta: {
@@ -60,7 +59,7 @@ export const constantRoute = [
 				}
 			},
 			{
-				path: '/account',
+				path: '/admin/account',
 				name: 'account',
 				component: () => import('@/views/admin/account/index.vue'),
 				meta: {
@@ -70,7 +69,7 @@ export const constantRoute = [
 				}
 			},
 			{
-				path: '/role',
+				path: '/admin/role',
 				name: 'role',
 				component: () => import('@/views/admin/role/index.vue'),
 				meta: {
@@ -80,7 +79,7 @@ export const constantRoute = [
 				}
 			},
 			{
-				path: '/menu',
+				path: '/admin/menu',
 				name: 'menu',
 				component: () => import('@/views/admin/menu/index.vue'),
 				meta: {
@@ -90,8 +89,8 @@ export const constantRoute = [
 				}
 			},
 			{
-				path: '/route',
-				name: 'route',
+				path: '/function',
+				name: 'function',
 				component: () => import('@/views/admin/function/index.vue'),
 				meta: {
 					title: '功能管理',
@@ -101,106 +100,6 @@ export const constantRoute = [
 			}
 		]
 	},
-	// 功能页面
-	{
-		path: '/function',
-		name: 'function',
-		component: () => import('@/layout/index.vue'),
-		meta: {
-			title: '功能',
-			hidden: false,
-			icon: 'Operation'
-		},
-		redirect: '/echarts',
-		children: [
-			// echarts
-			{
-				path: '/echarts',
-				name: 'echarts',
-				meta: {
-					title: 'Echarts',
-					hidden: false,
-					icon: 'PieChart'
-				},
-				redirect: '/echarts/bar',
-				children: [
-					{
-						path: '/echarts/bar',
-						name: 'bar',
-						component: () => import('@/views/function/echarts/bar.vue'),
-						meta: {
-							title: '柱状图',
-							hidden: false,
-							icon: 'Histogram'
-						}
-					},
-					{
-						path: '/echarts/line',
-						name: 'line',
-						component: () => import('@/views/function/echarts/line.vue'),
-						meta: {
-							title: '折线图',
-							hidden: false,
-							icon: 'DataLine'
-						}
-					},
-					{
-						path: '/echarts/pie',
-						name: 'pie',
-						component: () => import('@/views/function/echarts/pie.vue'),
-						meta: {
-							title: '饼图',
-							hidden: false,
-							icon: 'PieChart'
-						}
-					},
-					{
-						path: '/echarts/radar',
-						name: 'radar',
-						component: () => import('@/views/function/echarts/radar.vue'),
-						meta: {
-							title: '雷达图',
-							hidden: false,
-							icon: 'PieChart'
-						}
-					},
-					{
-						path: '/echarts/map',
-						name: 'map',
-						component: () => import('@/views/function/echarts/map.vue'),
-						meta: {
-							title: '地图',
-							hidden: false,
-							icon: 'PieChart'
-						}
-					}
-				]
-			},
-			// MQTT客户端
-			{
-				path: '/mqttclient',
-				name: 'mqttclient',
-				component: () => import('@/views/function/mqtt/index.vue'),
-				meta: {
-					title: 'MQTT客户端',
-					hidden: false,
-					icon: 'Phone'
-				}
-			},
-			// 打印功能
-			{
-				path: '/print',
-				name: 'print',
-				component: () => import('@/views/function/print/index.vue'),
-				meta: {
-					title: '打印功能',
-					hidden: false,
-					icon: 'Printer'
-				}
-			}
-		]
-	},
-
 	//关于页面
 	{
 		path: '/about',
@@ -211,11 +110,11 @@ export const constantRoute = [
 			hidden: false,
 			icon: 'Link'
 		},
-		redirect: '/about',
+		redirect: '/about/about',
 		children: [
 			// 关于系统
 			{
-				path: '/about',
+				path: '/about/about',
 				name: 'about',
 				component: () => import('@/views/about/index.vue'),
 				meta: {
@@ -237,17 +136,6 @@ export const constantRoute = [
 			icon: 'CircleCloseFilled'
 		}
 	},
-	//  未知路由重定向
-	{
-		path: '/:pathMatch(.*)*',
-		redirect: '/404',
-		name: 'any',
-		meta: {
-			title: '其他',
-			hidden: true,
-			icon: 'QuestionFilled'
-		}
-	},
 	// 重定向
 	{
 		path: '/',
@@ -267,6 +155,188 @@ export const constantRoute = [
 			title: '登陆',
 			hidden: true,
 			icon: 'House'
+		}
+	}
+];
+
+// 异步路由
+export const asnycRoute = [
+	// 管理页面
+	{
+		path: '/admin',
+		name: 'admin',
+		component: () => import('@/layout/index.vue'),
+		meta: {
+			title: '系统管理',
+			hidden: false,
+			icon: 'Setting'
+		},
+		redirect: '/admin/organization',
+		children: [
+			{
+				path: '/admin/organization',
+				name: 'organization',
+				component: () => import('@/views/admin/organization/index.vue'),
+				meta: {
+					title: '组织管理',
+					hidden: false,
+					icon: 'OfficeBuilding'
+				}
+			},
+			{
+				path: '/admin/account',
+				name: 'account',
+				component: () => import('@/views/admin/account/index.vue'),
+				meta: {
+					title: '账户管理',
+					hidden: false,
+					icon: 'User'
+				}
+			},
+			{
+				path: '/admin/role',
+				name: 'role',
+				component: () => import('@/views/admin/role/index.vue'),
+				meta: {
+					title: '角色管理',
+					hidden: false,
+					icon: 'UserFilled'
+				}
+			},
+			{
+				path: '/admin/menu',
+				name: 'menu',
+				component: () => import('@/views/admin/menu/index.vue'),
+				meta: {
+					title: '菜单管理',
+					hidden: false,
+					icon: 'Grid'
+				}
+			},
+			{
+				path: '/function',
+				name: 'function',
+				component: () => import('@/views/admin/function/index.vue'),
+				meta: {
+					title: '功能管理',
+					hidden: false,
+					icon: 'TurnOff'
+				}
+			}
+		]
+	},
+	// 功能页面
+	{
+		path: '/functions',
+		name: 'functions',
+		component: () => import('@/layout/index.vue'),
+		meta: {
+			title: '功能',
+			hidden: false,
+			icon: 'Operation'
+		},
+		redirect: '/functions/echarts',
+		children: [
+			// echarts
+			{
+				path: '/functions/echarts',
+				name: 'echarts',
+				meta: {
+					title: 'Echarts',
+					hidden: false,
+					icon: 'PieChart'
+				},
+				redirect: '/functions/echarts/bar',
+				children: [
+					{
+						path: '/functions/echarts/bar',
+						name: 'bar',
+						component: () => import('@/views/function/echarts/bar.vue'),
+						meta: {
+							title: '柱状图',
+							hidden: false,
+							icon: 'Histogram'
+						}
+					},
+					{
+						path: '/functions/echarts/line',
+						name: 'line',
+						component: () => import('@/views/function/echarts/line.vue'),
+						meta: {
+							title: '折线图',
+							hidden: false,
+							icon: 'DataLine'
+						}
+					},
+					{
+						path: '/functions/echarts/pie',
+						name: 'pie',
+						component: () => import('@/views/function/echarts/pie.vue'),
+						meta: {
+							title: '饼图',
+							hidden: false,
+							icon: 'PieChart'
+						}
+					},
+					{
+						path: '/functions/echarts/radar',
+						name: 'radar',
+						component: () => import('@/views/function/echarts/radar.vue'),
+						meta: {
+							title: '雷达图',
+							hidden: false,
+							icon: 'PieChart'
+						}
+					},
+					{
+						path: '/functions/echarts/map',
+						name: 'map',
+						component: () => import('@/views/function/echarts/map.vue'),
+						meta: {
+							title: '地图',
+							hidden: false,
+							icon: 'PieChart'
+						}
+					}
+				]
+			},
+			// MQTT客户端
+			{
+				path: '/functions/mqttclient',
+				name: 'mqttclient',
+				component: () => import('@/views/function/mqtt/index.vue'),
+				meta: {
+					title: 'MQTT客户端',
+					hidden: false,
+					icon: 'Phone'
+				}
+			},
+			// 打印功能
+			{
+				path: '/functions/print',
+				name: 'print',
+				component: () => import('@/views/function/print/index.vue'),
+				meta: {
+					title: '打印功能',
+					hidden: false,
+					icon: 'Printer'
+				}
+			}
+		]
+	}
+];
+
+// 任意路由
+export const anyRoute = [
+	//  未知路由重定向
+	{
+		path: '/:pathMatch(.*)*',
+		redirect: '/404',
+		name: 'any',
+		meta: {
+			title: '其他',
+			hidden: true,
+			icon: 'QuestionFilled'
 		}
 	}
 ];
