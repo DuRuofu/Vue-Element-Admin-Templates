@@ -85,6 +85,8 @@
 			</div>
 		</template>
 	</el-dialog>
+	<!-- 忘记密码组件 -->
+	<authority ref="authorityP"></authority>
 </template>
 
 <script setup lang="ts">
@@ -93,6 +95,8 @@ import { ElMessage, ElMessageBox } from 'element-plus';
 import { getRoles, deleteRoles, addRoles, updateRoles } from '@/api/admin/role/index';
 import { formatTime } from '@/utils/time';
 
+// 引入自定义组件
+import authority from './components/authority.vue';
 // -----------data----------------
 // 表格宽度自动适应
 const tableLayout = ref('auto');
@@ -109,6 +113,9 @@ const Name = ref('');
 const Description = ref('');
 const Value = ref('');
 const IsDisabled = ref('0');
+
+// 组件句柄
+const authorityP = ref();
 
 // -----------按键函数--------------
 // 添加
@@ -198,7 +205,7 @@ const addOrUpdate = () => {
 };
 // 权限
 const authorityButton = (row: any) => {
-	console.log('权限', row);
+	authorityP.value.open(row);
 };
 
 // ------------页面数据更新---------------

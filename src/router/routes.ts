@@ -225,6 +225,16 @@ export const asnycRoute = [
 			}
 		]
 	},
+	{
+		path: '/:pathMatch(.*)*',
+		redirect: '/404',
+		name: 'any',
+		meta: {
+			title: '其他',
+			hidden: true,
+			icon: 'QuestionFilled'
+		}
+	},
 	// 功能页面
 	{
 		path: '/functions',
@@ -300,6 +310,7 @@ export const asnycRoute = [
 					}
 				]
 			},
+
 			// MQTT客户端
 			{
 				path: '/functions/mqttclient',
