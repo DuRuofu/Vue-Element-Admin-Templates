@@ -12,6 +12,7 @@
 						style="max-width: 600px"
 						:data="PermissionData.MenuData"
 						:default-checked-keys="PermissionData.defaultMenuData"
+						:current-node-key="PermissionData.currentMenuData"
 						:props="props"
 						show-checkbox
 						ref="refMenu"
@@ -28,6 +29,7 @@
 					style="max-width: 600px"
 					:data="PermissionData.functionalData"
 					:default-checked-keys="PermissionData.defaulfunctionalData"
+					:current-node-key="PermissionData.currentfunctionalData"
 					:props="props"
 					show-checkbox
 					ref="refFunction"
@@ -48,10 +50,11 @@ import { ElMessage } from 'element-plus';
 import { onMounted, reactive, ref } from 'vue';
 import { getMenuList } from '@/api/admin/menu/index';
 import { getFunctionList } from '@/api/admin/function/index';
+import { addRolePermissions, getRolePermissions } from '@/api/admin/role/index';
 
 const refMenu = ref();
 const refFunction = ref();
-
+const RoleId = ref();
 // 树形选框配置
 const props = {
 	value: 'PermissionId',
@@ -62,25 +65,31 @@ const props = {
 
 const PermissionData = reactive({
 	functionalData: [],
-	defaulfunctionalData: [],
-	currentfunctionalData: [],
+	defaulfunctionalData: '',
+	currentfunctionalData: '',
 	MenuData: [],
 	defaultMenuData: [],
 	currentMenuData: []
 });
-// const changes = (data: any, node: any) => {
-// 	console.log(data, node);
-// 	console.log(PermissionData.currentfunctionalData);
-// 	console.log(PermissionData.currentMenuData);
-// };
 
 // 确认
-const updateButton = () => {
+const updateButton = async () => {
 	// 保存选中内容
 	PermissionData.currentMenuData = refMenu.value.getCheckedKeys();
 	PermissionData.currentfunctionalData = refFunction.value.getCheckedKeys();
-	// 处理数据
-	//state.Dialog = false;
+	// 合并数组
+	const newArr = [...PermissionData.currentMenuData, ...PermissionData.currentfunctionalData];
+	// 发送请求
+	console.log(newArr);
+	const res = await addRolePermissions(+RoleId.value, {
+		Permissions: newArr
+	});
+	if (res.code === 200) {
+		// 消息弹窗
+		ElMessage.success('编辑成功');
+		// 关闭弹窗
+		state.Dialog = false;
+	}
 };
 // 取消
 const cancelButton = () => {
@@ -92,7 +101,16 @@ const cancelButton = () => {
 const getTableData = async () => {
 	getMenuData();
 	getFunctionData();
-	setDefaultData();
+};
+
+// 清理默认选框的值
+const deleteData = () => {
+	PermissionData.currentMenuData = [];
+	// PermissionData.currentfunctionalData = [];
+	// PermissionData.defaulfunctionalData = [];
+	PermissionData.defaultMenuData = [];
+	// refMenu.value.setCheckedKeys([]);
+	// refFunction.value.setCheckedKeys([]);
 };
 
 // 获取前端权限列表
@@ -116,14 +134,23 @@ const getFunctionData = async () => {
 };
 
 // 设置权限列表
-const setDefaultData = () => {
-	// PermissionData.defaultMenuData = PermissionData.MenuData;
-	// PermissionData.defaulfunctionalData = PermissionData.functionalData;
+const setDefaultData = async () => {
+	// 获取权限默认值
+	const res = await getRolePermissions(+RoleId.value);
+	console.log(res);
+	if (res.code === 200) {
+		PermissionData.defaultMenuData = res.data;
+		PermissionData.defaulfunctionalData = res.data;
+	} else {
+		ElMessage.error(res.message);
+	}
 };
 
 // ------------生命周期函数-------
 // 组件挂载完毕
 onMounted(() => {
+	// 清除默认数据
+	deleteData();
 	getTableData(); // 获取表格数据
 });
 
@@ -136,8 +163,12 @@ const state = reactive({
 // 打开弹窗方法
 const open = (row: any) => {
 	state.Dialog = true;
-	console.log('弹窗已打开');
-	console.log(row);
+	if (row == undefined) {
+		console.log('新增');
+	} else {
+		RoleId.value = row.RoleId;
+		setDefaultData();
+	}
 };
 
 // 暴露打开弹窗方法
