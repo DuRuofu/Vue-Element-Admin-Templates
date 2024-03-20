@@ -42,7 +42,7 @@
 						@click="authorityButton(row)"></el-button>
 				</template>
 			</el-table-column>
-			<el-table-column align="center" label="操作">
+			<el-table-column align="center" label="操作" fixed="right">
 				<template #="{ row, $index }">
 					<el-button type="primary" size="small" icon="Edit" @click="editButton(row)"></el-button>
 					<el-divider direction="vertical" />

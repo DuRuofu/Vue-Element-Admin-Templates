@@ -214,7 +214,7 @@ export const asnycRoute = [
 				}
 			},
 			{
-				path: '/function',
+				path: '/admin/function',
 				name: 'function',
 				component: () => import('@/views/admin/function/index.vue'),
 				meta: {

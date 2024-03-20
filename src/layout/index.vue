@@ -21,7 +21,7 @@
 				</el-header>
 				<el-main>
 					<!-- 动态部分 -->
-					<router-view v-if="flag"></router-view>
+					<router-view v-if="flag" class="router-view"></router-view>
 					<!-- 动态部分 -->
 				</el-main>
 			</el-container>
@@ -101,6 +101,16 @@ const menuFold = () => {
 			// background: #001529;
 		}
 	}
+}
+
+.router-view {
+	margin-right: 10px;
+	margin-left: 10px;
+}
+
+.el-main {
+	padding: 0;
+	margin: 0;
 }
 
 // 去除头部默认样式

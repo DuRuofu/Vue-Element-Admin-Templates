@@ -11,5 +11,5 @@ enum API {
 // 获取用户列表(分页)
 // page:当前页数
 // limit:数据数量
-export const getAllAccountList = (page: number, limit: number) =>
-	request.get<any, any>(API.getAccountList_url + `${page}` + `/${limit}`);
+export const getAllAccountList = (organizationid: number, page: number, limit: number) =>
+	request.get<any, any>(API.getAccountList_url + `${organizationid}` + `/${page}` + `/${limit}`);
