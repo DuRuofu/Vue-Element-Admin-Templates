@@ -42,7 +42,7 @@
 								</div>
 							</el-form>
 						</el-tab-pane>
-						<el-tab-pane label="注册" name="second">
+						<!-- <el-tab-pane label="注册" name="second">
 							<el-form class="register-form" :label-position="labelPosition" label-width="70px">
 								<el-form-item label="账户">
 									<el-input v-model="registerData.Account" placeholder="请输入账户" />
@@ -72,7 +72,7 @@
 									</div>
 								</div>
 							</el-form>
-						</el-tab-pane>
+						</el-tab-pane> -->
 					</el-tabs>
 				</el-card>
 			</el-main>
@@ -102,16 +102,16 @@ const activeName = ref('first');
 const router = useRouter();
 
 // 表单对齐方式
-const labelPosition = ref('left');
+// const labelPosition = ref('left');
 
-interface RegisterData {
-	Account: string;
-	Password_1: string;
-	Password_2: string;
-	Email_Phone: string;
-	Code: string;
-	Check: boolean;
-}
+// interface RegisterData {
+// 	Account: string;
+// 	Password_1: string;
+// 	Password_2: string;
+// 	Email_Phone: string;
+// 	Code: string;
+// 	Check: boolean;
+// }
 
 // 定义登陆表单数据
 const loginData: LoginData = reactive({
@@ -119,15 +119,15 @@ const loginData: LoginData = reactive({
 	Password: ''
 });
 
-// 定义注册表单数据
-const registerData: RegisterData = reactive({
-	Account: '',
-	Password_1: '',
-	Password_2: '',
-	Email_Phone: '',
-	Code: '',
-	Check: false
-});
+// // 定义注册表单数据
+// const registerData: RegisterData = reactive({
+// 	Account: '',
+// 	Password_1: '',
+// 	Password_2: '',
+// 	Email_Phone: '',
+// 	Code: '',
+// 	Check: false
+// });
 
 // 定义登陆方法
 const loginButton = async () => {
@@ -146,11 +146,11 @@ const loginButton = async () => {
 	}
 };
 
-// 定义注册方法
-const registerButton = async () => {
-	//const res = await register(registerData);
-	//console.log(res);
-};
+// // 定义注册方法
+// const registerButton = async () => {
+// 	//const res = await register(registerData);
+// 	//console.log(res);
+// };
 
 // 定义忘记密码组件的引用
 const fogetP = ref();

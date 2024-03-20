@@ -20,7 +20,7 @@
 		<el-card fit="true">
 			<!-- 卡片头部添加按钮 -->
 			<div class="button">
-				<el-button type="primary" icon="Plus">添加</el-button>
+				<el-button type="primary" icon="Plus" @click="addButton">添加</el-button>
 			</div>
 			<!-- 卡片中部表格 -->
 			<el-table border :data="tableData" :table-layout="tableLayout" style="margin: 10px 0">
@@ -49,9 +49,9 @@
 				</el-table-column>
 				<el-table-column align="center" label="操作" fixed="right">
 					<template #="{ row, $index }">
-						<el-button type="primary" size="small" icon="Edit"></el-button>
+						<el-button type="primary" size="small" @click="editButton(row)" icon="Edit"></el-button>
 						<el-divider direction="vertical" />
-						<el-button type="danger" size="small" icon="Delete"></el-button>
+						<el-button type="danger" size="small" @click="deleteButton" icon="Delete"></el-button>
 					</template>
 				</el-table-column>
 			</el-table>
@@ -75,6 +75,7 @@
 				:total="total" />
 		</el-card>
 	</div>
+	<edit ref="editP" :OrganizationData="OrganizationDataCopy"></edit>
 </template>
 
 <script setup lang="ts">
@@ -82,6 +83,9 @@ import { ref, onMounted } from 'vue';
 import { ElMessage } from 'element-plus';
 import { getAllAccountList } from '@/api/admin/account/index';
 import { getOrganizationTrees } from '@/api/admin/organization';
+// 引入自定义组件
+import edit from './components/edit.vue';
+const editP = ref();
 // 表格宽度自动适应
 const tableLayout = ref('auto');
 // 表格当前页码
@@ -93,14 +97,15 @@ const total = ref<number>(0);
 // 存储账户信息
 const tableData = ref<any[]>([]);
 // 存储组织信息
-const OrganizationData = ref<any[]>([]);
+const OrganizationData = ref<any[]>([]); // 自己用
+const OrganizationDataCopy = ref<any[]>([]); // 子组件用
 const organizationValue = ref('0'); // 默认选中全部
 // 树形选框配置
 const props = {
 	value: 'OrganizationId',
 	label: 'Name',
 	children: 'children',
-	disabled: 'disabled'
+	disabled: 'IsDisabled'
 };
 
 // 表格显示数目变化
@@ -108,7 +113,17 @@ const sizeChange = () => {
 	currentPage.value = 1;
 	getTableData();
 };
+// 添加按钮
+const addButton = () => {
+	editP.value.open();
+};
+// 编辑按钮
+const editButton = (row: any) => {
+	editP.value.open(row);
+};
 
+// 删除按钮
+const deleteButton = () => {};
 // 查询按钮
 const searchButton = () => {
 	//console.log(organizationValue.value);
@@ -147,6 +162,8 @@ const getOrganizationData = async () => {
 	if (res.code === 200) {
 		// 表格数据赋值
 		OrganizationData.value = res.data;
+		// 存一个深拷贝
+		OrganizationDataCopy.value = [...OrganizationData.value];
 		OrganizationData.value.unshift({ OrganizationId: '0', Name: '全部组织' });
 	} else {
 		ElMessage.error(res.msg);

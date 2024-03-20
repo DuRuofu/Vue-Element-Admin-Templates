@@ -13,3 +13,6 @@ enum API {
 // limit:数据数量
 export const getAllAccountList = (organizationid: number, page: number, limit: number) =>
 	request.get<any, any>(API.getAccountList_url + `${organizationid}` + `/${page}` + `/${limit}`);
+
+// 添加账户
+export const addAccount = (data: any) => request.post<any, any>(`/account/register`, data);
