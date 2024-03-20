@@ -61,7 +61,7 @@
 import { ElMessage } from 'element-plus';
 import { onMounted, reactive, ref } from 'vue';
 import { getRoles } from '@/api/admin/role/index';
-
+import { addAccount, updateAccount } from '@/api/admin/account/index';
 // 树形选框配置
 const props = {
 	value: 'OrganizationId',
@@ -72,6 +72,7 @@ const props = {
 
 const title = ref('');
 const Data = reactive({
+	id: '',
 	organizationValue: '',
 	Roles: <any[]>[],
 	Account: '',
@@ -85,8 +86,87 @@ const Data = reactive({
 const RolesData = ref();
 
 // 确认
-const updateButton = () => {
-	// 保存选中内容
+const updateButton = async () => {
+	// 添加模式
+	if (state.Edit == 0) {
+		// 参数校验
+		if (
+			Data.organizationValue == '' ||
+			Data.Account == '' ||
+			Data.Name == '' ||
+			Data.Password == '' ||
+			Data.Phone == '' ||
+			Data.Email == ''
+		) {
+			ElMessage.error('请输入必填项');
+			return;
+		}
+		// 补充默认值
+		if (Data.Roles.length == 0) {
+			Data.Roles = ['default'];
+		}
+		// 发送请求
+		const res = await addAccount({
+			OrganizationId: Data.organizationValue,
+			Roles: Data.Roles,
+			Account: Data.Account,
+			Password: Data.Password,
+			IsDisabled: Data.IsDisabled,
+			Phone: Data.Phone,
+			Email: Data.Email
+		});
+		if (res.code === 200) {
+			// 消息弹窗
+			ElMessage.success('添加成功');
+			// 刷新页面
+			emit('refreshData');
+			// 关闭弹窗
+			state.Dialog = false;
+			state.Edit = 0;
+		} else {
+			ElMessage.error(res.message);
+		}
+	}
+	// 修改模式
+	if (state.Edit == 1) {
+		// 参数校验
+		if (
+			Data.organizationValue == '' ||
+			Data.Account == '' ||
+			Data.Name == '' ||
+			Data.Password == '' ||
+			Data.Phone == '' ||
+			Data.Email == ''
+		) {
+			ElMessage.error('请输入必填项');
+			return;
+		}
+		// 补充默认值
+		if (Data.Roles.length == 0) {
+			Data.Roles = ['default'];
+		}
+		// 发起请求
+		const res = await updateAccount(Data.id, {
+			OrganizationId: Data.organizationValue,
+			Roles: Data.Roles,
+			Name: Data.Name,
+			Password: Data.Password,
+			IsDisabled: Data.IsDisabled,
+			Phone: Data.Phone,
+			Email: Data.Email
+		});
+		if (res.code === 200) {
+			// 消息弹窗
+			ElMessage.success('修改成功');
+			// 刷新页面
+			emit('refreshData');
+			// 关闭弹窗
+			state.Dialog = false;
+			state.Edit = 0;
+		} else {
+			ElMessage.error(res.message);
+		}
+	}
 };
 // 取消
 const cancelButton = () => {
@@ -143,6 +223,7 @@ const open = (row: any) => {
 		state.Edit = 1;
 		// 修改
 		title.value = '修改账户';
+		Data.id = row.AccountId;
 		Data.Roles = row.Roles;
 		Data.Account = row.Account;
 		Data.Name = row.Name;
@@ -160,6 +241,9 @@ defineExpose({
 });
 // 接收父组件参数
 defineProps(['OrganizationData']);
+
+// 声明自定义事emit件
+const emit = defineEmits(['refreshData']);
 </script>
 
 <style scoped lang="scss">

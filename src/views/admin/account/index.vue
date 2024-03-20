@@ -75,7 +75,7 @@
 				:total="total" />
 		</el-card>
 	</div>
-	<edit ref="editP" :OrganizationData="OrganizationDataCopy"></edit>
+	<edit ref="editP" :OrganizationData="OrganizationDataCopy" @refreshData="getTableData"></edit>
 </template>
 
 <script setup lang="ts">
