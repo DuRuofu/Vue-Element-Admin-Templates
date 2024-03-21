@@ -18,15 +18,15 @@ router.beforeEach(async (to: any, from: any, next: any) => {
 	// 用户已登录
 	if (token) {
 		if (to.path == '/login') {
-			next('/dataview');
+			next('/dashboard');
 		} else {
 			if (accountNmae) {
 				next();
 			} else {
-				// 获取用户信息
+				// 获取用户信息to
 				try {
 					await accountStore.gteAccountInfo();
-					next();
+					next({ ...to, replaace: true });
 				} catch (error) {
 					// 获取用户信息失败
 					// 清空token

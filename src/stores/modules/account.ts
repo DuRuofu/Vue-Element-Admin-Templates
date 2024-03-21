@@ -9,7 +9,29 @@ import { login, getAccountInfo } from '@/api/account/index';
 import { SET_TOKEN, GET_TOKEN } from '@/utils/token';
 
 // 引入路由表
-import { constantRoute } from '@/router/routes';
+import { constantRoute, asnycRoute, anyRoute } from '@/router/routes';
+
+//引入深拷贝方法
+import cloneDeep from 'lodash/cloneDeep';
+import router from '@/router';
+
+//用于过滤当前用户需要展示的异步路由
+function filterAsyncRoute(asyncRoute: any, routes: any) {
+	return asyncRoute.filter((item: any) => {
+		if (routes.includes(item.name)) {
+			return true;
+		}
+		if (item.children && item.children.length > 0) {
+			// 过滤子路由
+			item.children = filterAsyncRoute(item.children, routes);
+			// 如果有子路由被保留，保留父路由
+			if (item.children.length > 0) {
+				return true;
+			}
+		}
+		return false;
+	});
+}
 
 // 创建用户仓库
 const useAccountStore = defineStore('Account', {
@@ -47,6 +69,18 @@ const useAccountStore = defineStore('Account', {
 				const res = (await getAccountInfo()) as any;
 				if (res.code == 200) {
 					this.accountInfo = res.data;
+					//console.log(res);
+					//计算当前用户需要展示的异步路由(注意使用深拷贝,不要影响原有的路由)
+					//console.log('原始异步路由', asnycRoute);
+					//console.log('用户有的路由', res.data.Routes);
+					const userAsyncRoute = filterAsyncRoute(cloneDeep(asnycRoute), res.data.Routes);
+					//console.log(userAsyncRoute);
+					//菜单需要的数据整理完毕
+					this.menuRoutes = [...constantRoute, ...userAsyncRoute, anyRoute[0]];
+					//目前路由器管理的只有常量路由:用户计算完毕异步路由、任意路由动态追加
+					[...userAsyncRoute, anyRoute[0]].forEach((route: any) => {
+						router.addRoute(route);
+					});
 					return 'ok';
 				} else {
 					return Promise.reject(new Error());

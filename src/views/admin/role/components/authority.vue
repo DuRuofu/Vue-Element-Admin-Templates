@@ -71,13 +71,19 @@ const PermissionData = reactive({
 	currentfunctionalData: '',
 	MenuData: [],
 	defaultMenuData: [],
-	currentMenuData: []
+	currentMenuData: <any[]>[]
 });
 
 // 确认
 const updateButton = async () => {
 	// 保存选中内容
-	PermissionData.currentMenuData = refMenu.value.getCheckedKeys();
+	// 菜单保存（全选和半选）
+	// PermissionData.currentMenuData = [
+	// 	...refMenu.value.getCheckedKeys(),
+	// 	...refMenu.value.getHalfCheckedKeys()
+	// ];
+	PermissionData.currentMenuData = [...refMenu.value.getCheckedKeys()];
+	// 权限保存全选
 	PermissionData.currentfunctionalData = refFunction.value.getCheckedKeys();
 	// 合并数组
 	const newArr = [...PermissionData.currentMenuData, ...PermissionData.currentfunctionalData];
