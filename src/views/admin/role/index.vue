@@ -1,92 +1,94 @@
 <!-- eslint-disable vue/valid-attribute-name -->
 <template>
-	<el-card class="box-card" fit="true">
-		<!-- 卡片头部添加按钮 -->
-		<div class="button">
-			<el-button type="primary" icon="Plus" @click="addButton">添加角色</el-button>
-		</div>
-		<!-- 卡片中部表格 -->
-		<el-table
-			:data="tableData"
-			style="width: 100%; margin-bottom: 20px"
-			row-key="RoleId"
-			:table-layout="tableLayout"
-			border>
-			<el-table-column prop="Name" label="角色名称" sortable align="center" />
-			<el-table-column prop="Value" label="角色值" sortable align="center" />
-			<el-table-column label="状态" sortable align="center">
-				<template #default="{ row }">
-					<el-tag v-if="row.IsDisabled" type="danger">禁用</el-tag>
-					<el-tag v-else type="success">启用</el-tag>
-				</template>
-			</el-table-column>
-			<el-table-column prop="Description" label="描述" sortable align="center" />
-			<el-table-column
-				prop="CreatedTime"
-				label="创建时间"
-				sortable
-				:formatter="formatTime"
-				align="center" />
-			<el-table-column
-				prop="UpdatedTime"
-				label="更新时间"
-				sortable
-				:formatter="formatTime"
-				align="center" />
-			<el-table-column align="center" label="权限">
-				<template #="{ row, $index }">
-					<el-button
-						type="primary"
-						size="small"
-						icon="Edit"
-						@click="authorityButton(row)"></el-button>
-				</template>
-			</el-table-column>
-			<el-table-column align="center" label="操作" fixed="right">
-				<template #="{ row, $index }">
-					<el-button type="primary" size="small" icon="Edit" @click="editButton(row)"></el-button>
-					<el-divider direction="vertical" />
-					<el-button
-						type="danger"
-						size="small"
-						icon="Delete"
-						@click="deleteButton(row)"></el-button>
-				</template>
-			</el-table-column>
-		</el-table>
-		<!-- 卡片底部分页-->
-	</el-card>
-
-	<!-- 添加角色弹窗 -->
-	<el-dialog v-model="dialogVisible" :title="isAdd ? '添加角色' : '修改角色'" width="500">
-		<!-- 添加组织表单 -->
-		<el-form style="width: 80%">
-			<el-form-item label="角色名称">
-				<el-input v-model="Name" placeholder="请输入角色名称"></el-input>
-			</el-form-item>
-			<el-form-item label="角色值">
-				<el-input v-model="Value"></el-input>
-			</el-form-item>
-			<el-form-item label="启用状态">
-				<el-radio-group v-model="IsDisabled">
-					<el-radio label="0">启用</el-radio>
-					<el-radio label="1">禁用</el-radio>
-				</el-radio-group>
-			</el-form-item>
-			<el-form-item label="角色描述">
-				<el-input v-model="Description" type="textarea" placeholder="请输入角色描述"></el-input>
-			</el-form-item>
-		</el-form>
-		<!-- 添加/修改组织表单提交 -->
-		<template #footer>
-			<div class="dialog-footer">
-				<el-button @click="dialogVisible = false">取消</el-button>
-				<el-button type="primary" @click="addOrUpdate">确认</el-button>
+	<div>
+		<el-card class="box-card" fit="true">
+			<!-- 卡片头部添加按钮 -->
+			<div class="button">
+				<el-button type="primary" icon="Plus" @click="addButton">添加角色</el-button>
 			</div>
-		</template>
-	</el-dialog>
-	<!-- 忘记密码组件 -->
-	<authority ref="authorityP"></authority>
+			<!-- 卡片中部表格 -->
+			<el-table
+				:data="tableData"
+				style="width: 100%; margin-bottom: 20px"
+				row-key="RoleId"
+				:table-layout="tableLayout"
+				border>
+				<el-table-column prop="Name" label="角色名称" sortable align="center" />
+				<el-table-column prop="Value" label="角色值" sortable align="center" />
+				<el-table-column label="状态" sortable align="center">
+					<template #default="{ row }">
+						<el-tag v-if="row.IsDisabled" type="danger">禁用</el-tag>
+						<el-tag v-else type="success">启用</el-tag>
+					</template>
+				</el-table-column>
+				<el-table-column prop="Description" label="描述" sortable align="center" />
+				<el-table-column
+					prop="CreatedTime"
+					label="创建时间"
+					sortable
+					:formatter="formatTime"
+					align="center" />
+				<el-table-column
+					prop="UpdatedTime"
+					label="更新时间"
+					sortable
+					:formatter="formatTime"
+					align="center" />
+				<el-table-column align="center" label="权限">
+					<template #="{ row, $index }">
+						<el-button
+							type="primary"
+							size="small"
+							icon="Edit"
+							@click="authorityButton(row)"></el-button>
+					</template>
+				</el-table-column>
+				<el-table-column align="center" label="操作" fixed="right">
+					<template #="{ row, $index }">
+						<el-button type="primary" size="small" icon="Edit" @click="editButton(row)"></el-button>
+						<el-divider direction="vertical" />
+						<el-button
+							type="danger"
+							size="small"
+							icon="Delete"
+							@click="deleteButton(row)"></el-button>
+					</template>
+				</el-table-column>
+			</el-table>
+			<!-- 卡片底部分页-->
+		</el-card>
+
+		<!-- 添加角色弹窗 -->
+		<el-dialog v-model="dialogVisible" :title="isAdd ? '添加角色' : '修改角色'" width="500">
+			<!-- 添加组织表单 -->
+			<el-form style="width: 80%">
+				<el-form-item label="角色名称">
+					<el-input v-model="Name" placeholder="请输入角色名称"></el-input>
+				</el-form-item>
+				<el-form-item label="角色值">
+					<el-input v-model="Value"></el-input>
+				</el-form-item>
+				<el-form-item label="启用状态">
+					<el-radio-group v-model="IsDisabled">
+						<el-radio label="0">启用</el-radio>
+						<el-radio label="1">禁用</el-radio>
+					</el-radio-group>
+				</el-form-item>
+				<el-form-item label="角色描述">
+					<el-input v-model="Description" type="textarea" placeholder="请输入角色描述"></el-input>
+				</el-form-item>
+			</el-form>
+			<!-- 添加/修改组织表单提交 -->
+			<template #footer>
+				<div class="dialog-footer">
+					<el-button @click="dialogVisible = false">取消</el-button>
+					<el-button type="primary" @click="addOrUpdate">确认</el-button>
+				</div>
+			</template>
+		</el-dialog>
+		<!-- 忘记密码组件 -->
+		<authority ref="authorityP"></authority>
+	</div>
 </template>
 
 <script setup lang="ts">

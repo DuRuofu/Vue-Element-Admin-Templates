@@ -1,48 +1,50 @@
 <template>
-	<el-dialog v-model="state.Dialog" title="编辑权限" width="50%">
-		<div class="content">
-			<el-card style="max-width: 480px">
-				<template #header>
-					<div class="card-header">
-						<span>页面权限</span>
+	<div>
+		<el-dialog v-model="state.Dialog" title="编辑权限" width="50%">
+			<div class="content">
+				<el-card style="max-width: 480px">
+					<template #header>
+						<div class="card-header">
+							<span>页面权限</span>
+						</div>
+					</template>
+					<div>
+						<el-tree-v2
+							style="max-width: 600px"
+							:data="PermissionData.MenuData"
+							:default-checked-keys="PermissionData.defaultMenuData"
+							:current-node-key="PermissionData.currentMenuData"
+							:props="props"
+							show-checkbox
+							ref="refMenu"
+							:height="208" />
 					</div>
-				</template>
-				<div>
+				</el-card>
+				<el-card style="max-width: 480px">
+					<template #header>
+						<div class="card-header">
+							<span>功能权限</span>
+						</div>
+					</template>
 					<el-tree-v2
 						style="max-width: 600px"
-						:data="PermissionData.MenuData"
-						:default-checked-keys="PermissionData.defaultMenuData"
-						:current-node-key="PermissionData.currentMenuData"
+						:data="PermissionData.functionalData"
+						:default-checked-keys="PermissionData.defaulfunctionalData"
+						:current-node-key="PermissionData.currentfunctionalData"
 						:props="props"
 						show-checkbox
-						ref="refMenu"
+						ref="refFunction"
 						:height="208" />
-				</div>
-			</el-card>
-			<el-card style="max-width: 480px">
-				<template #header>
-					<div class="card-header">
-						<span>功能权限</span>
-					</div>
-				</template>
-				<el-tree-v2
-					style="max-width: 600px"
-					:data="PermissionData.functionalData"
-					:default-checked-keys="PermissionData.defaulfunctionalData"
-					:current-node-key="PermissionData.currentfunctionalData"
-					:props="props"
-					show-checkbox
-					ref="refFunction"
-					:height="208" />
-			</el-card>
-		</div>
-		<template #footer>
-			<div class="dialog-footer">
-				<el-button @click="cancelButton">取消</el-button>
-				<el-button type="primary" @click="updateButton">确认</el-button>
+				</el-card>
 			</div>
-		</template>
-	</el-dialog>
+			<template #footer>
+				<div class="dialog-footer">
+					<el-button @click="cancelButton">取消</el-button>
+					<el-button type="primary" @click="updateButton">确认</el-button>
+				</div>
+			</template>
+		</el-dialog>
+	</div>
 </template>
 
 <script setup lang="ts">
@@ -103,16 +105,6 @@ const getTableData = async () => {
 	getFunctionData();
 };
 
-// 清理默认选框的值
-const deleteData = () => {
-	PermissionData.currentMenuData = [];
-	// PermissionData.currentfunctionalData = [];
-	// PermissionData.defaulfunctionalData = [];
-	PermissionData.defaultMenuData = [];
-	// refMenu.value.setCheckedKeys([]);
-	// refFunction.value.setCheckedKeys([]);
-};
-
 // 获取前端权限列表
 const getMenuData = async () => {
 	const res = await getMenuList();
@@ -141,6 +133,8 @@ const setDefaultData = async () => {
 	if (res.code === 200) {
 		PermissionData.defaultMenuData = res.data;
 		PermissionData.defaulfunctionalData = res.data;
+		refMenu.value.setCheckedKeys(res.data);
+		refFunction.value.setCheckedKeys(res.data);
 	} else {
 		ElMessage.error(res.message);
 	}
@@ -150,7 +144,6 @@ const setDefaultData = async () => {
 // 组件挂载完毕
 onMounted(() => {
 	// 清除默认数据
-	deleteData();
 	getTableData(); // 获取表格数据
 });
 
@@ -163,10 +156,14 @@ const state = reactive({
 // 打开弹窗方法
 const open = (row: any) => {
 	state.Dialog = true;
+	// 新增
 	if (row == undefined) {
 		console.log('新增');
-	} else {
-		RoleId.value = row.RoleId;
+	}
+	// 修改
+	else {
+		RoleId.value = row.RoleId; // 保存角色ID
+		// 设置勾选的默认值
 		setDefaultData();
 	}
 };
