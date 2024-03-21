@@ -107,10 +107,10 @@ const tableData = ref<any[]>([]);
 
 // 层级定义(可定义多层)
 const levelOptions = [
-	{ LevelName: '学校', Level: 0 },
-	{ LevelName: '学院', Level: 1 },
-	{ LevelName: '专业', Level: 2 },
-	{ LevelName: '班级', Level: 3 }
+	{ LevelName: '学校', Level: 1 },
+	{ LevelName: '学院', Level: 2 },
+	{ LevelName: '专业', Level: 3 },
+	{ LevelName: '班级', Level: 4 }
 ];
 
 // 添加组织弹窗(显示/隐藏)
@@ -136,6 +136,7 @@ const Parent = ref('');
 
 // 上级组织选框数据更新
 const handleChange = () => {
+	console.log(Parent.value);
 	console.log(Parent.value);
 	// 获取数组索引最大值
 	const maxIndex = Parent.value.length - 1;
@@ -186,7 +187,7 @@ const addButton = () => {
 	Name.value = '';
 	Description.value = '';
 	Level.value = '1';
-	LevelName.value = '';
+	LevelName.value = levelOptions[0].LevelName;
 	Parent.value = '0';
 	ParentId.value = '0';
 };

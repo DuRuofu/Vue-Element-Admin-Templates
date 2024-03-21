@@ -92,71 +92,71 @@ export const constantRoute = [
 			hidden: true,
 			icon: 'House'
 		}
-	},
-	// 系统管理
-	{
-		path: '/admin',
-		name: 'admin',
-		component: () => import('@/layout/index.vue'),
-		meta: {
-			title: '系统管理',
-			hidden: false,
-			icon: 'Setting'
-		},
-		redirect: '/admin/organization',
-		children: [
-			{
-				path: '/admin/organization',
-				name: 'organization',
-				component: () => import('@/views/admin/organization/index.vue'),
-				meta: {
-					title: '组织管理',
-					hidden: false,
-					icon: 'OfficeBuilding'
-				}
-			},
-			{
-				path: '/admin/account',
-				name: 'account',
-				component: () => import('@/views/admin/account/index.vue'),
-				meta: {
-					title: '账户管理',
-					hidden: false,
-					icon: 'User'
-				}
-			},
-			{
-				path: '/admin/role',
-				name: 'role',
-				component: () => import('@/views/admin/role/index.vue'),
-				meta: {
-					title: '角色管理',
-					hidden: false,
-					icon: 'UserFilled'
-				}
-			},
-			{
-				path: '/admin/menu',
-				name: 'menu',
-				component: () => import('@/views/admin/menu/index.vue'),
-				meta: {
-					title: '菜单管理',
-					hidden: false,
-					icon: 'Grid'
-				}
-			},
-			{
-				path: '/admin/function',
-				name: 'function',
-				component: () => import('@/views/admin/function/index.vue'),
-				meta: {
-					title: '功能管理',
-					hidden: false,
-					icon: 'TurnOff'
-				}
-			}
-		]
 	}
+	// // 系统管理
+	// {
+	// 	path: '/admin',
+	// 	name: 'admin',
+	// 	component: () => import('@/layout/index.vue'),
+	// 	meta: {
+	// 		title: '系统管理',
+	// 		hidden: false,
+	// 		icon: 'Setting'
+	// 	},
+	// 	redirect: '/admin/organization',
+	// 	children: [
+	// 		{
+	// 			path: '/admin/organization',
+	// 			name: 'organization',
+	// 			component: () => import('@/views/admin/organization/index.vue'),
+	// 			meta: {
+	// 				title: '组织管理',
+	// 				hidden: false,
+	// 				icon: 'OfficeBuilding'
+	// 			}
+	// 		},
+	// 		{
+	// 			path: '/admin/account',
+	// 			name: 'account',
+	// 			component: () => import('@/views/admin/account/index.vue'),
+	// 			meta: {
+	// 				title: '账户管理',
+	// 				hidden: false,
+	// 				icon: 'User'
+	// 			}
+	// 		},
+	// 		{
+	// 			path: '/admin/role',
+	// 			name: 'role',
+	// 			component: () => import('@/views/admin/role/index.vue'),
+	// 			meta: {
+	// 				title: '角色管理',
+	// 				hidden: false,
+	// 				icon: 'UserFilled'
+	// 			}
+	// 		},
+	// 		{
+	// 			path: '/admin/menu',
+	// 			name: 'menu',
+	// 			component: () => import('@/views/admin/menu/index.vue'),
+	// 			meta: {
+	// 				title: '菜单管理',
+	// 				hidden: false,
+	// 				icon: 'Grid'
+	// 			}
+	// 		},
+	// 		{
+	// 			path: '/admin/function',
+	// 			name: 'function',
+	// 			component: () => import('@/views/admin/function/index.vue'),
+	// 			meta: {
+	// 				title: '功能管理',
+	// 				hidden: false,
+	// 				icon: 'TurnOff'
+	// 			}
+	// 		}
+	// 	]
+	// }
 ];
 
 // 异步路由
