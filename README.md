@@ -1,4 +1,4 @@
-# Vue-Element-Admin-Template
+# Vue-Element-Admin-Template(早期项目-不推荐使用)
 
 基于Vue3+Element ui的后端管理网站模板
 
